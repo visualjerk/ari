@@ -1,0 +1,22 @@
+{
+  "name": "ari",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue": "^3.0.0-beta.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@types/jest": "^26.0.4",
+    "@vue/compiler-sfc": "^3.0.0-beta.15",
+    "@vue/test-utils": "^2.0.0-alpha.7",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
+    "vite": "^1.0.0-beta.3"
+  }
+}
