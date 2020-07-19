@@ -1,7 +1,9 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ComponentOptions } from 'vue'
+
+export type As = string | ComponentOptions
 
 export interface BoxProps {
-  as: String
+  as: As
 }
 
 export const boxProps = {
