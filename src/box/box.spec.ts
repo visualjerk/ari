@@ -1,4 +1,4 @@
-import { Box } from './box'
+import { Box } from '.'
 import { mount } from '@vue/test-utils'
 
 describe('Box', () => {
@@ -25,5 +25,17 @@ describe('Box', () => {
     expect(wrapper.html()).toMatchInlineSnapshot(
       `"<div tabindex=\\"0\\" class=\\"bar\\" unicorn=\\"true\\">foo</div>"`
     )
+  })
+
+  it('can render as other element types', () => {
+    const wrapper = mount(Box, {
+      props: {
+        as: 'span',
+      },
+      slots: {
+        default: 'foo',
+      },
+    })
+    expect(wrapper.html()).toMatchInlineSnapshot(`"<span>foo</span>"`)
   })
 })

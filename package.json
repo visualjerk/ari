@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "jest"
   },
   "dependencies": {
     "vue": "^3.0.0-beta.15"
@@ -11,6 +12,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^26.0.4",
     "@vue/compiler-sfc": "^3.0.0-beta.15",
     "@vue/test-utils": "^2.0.0-alpha.7",
