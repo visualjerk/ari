@@ -1,4 +1,5 @@
-import { defineComponent, h, ComponentOptions } from 'vue'
+import { defineComponent } from '../utils'
+import { ComponentOptions, ref } from 'vue'
 
 export type As = string | ComponentOptions
 
@@ -13,9 +14,10 @@ export const boxProps = {
   },
 }
 
-export const Box = defineComponent({
-  props: boxProps,
-  setup(props, { slots }) {
-    return () => h(props.as, {}, slots)
-  },
-})
+export function useBox() {
+  return {
+    ref: ref(null),
+  }
+}
+
+export const Box = defineComponent(boxProps, useBox)

@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import { defineComponent } from '../utils'
 import { useTabbable, tabbableProps, TabbableProps } from '../tabbable'
 
 export interface ClickableProps extends TabbableProps {
@@ -29,9 +29,4 @@ export function useClickable({ onClick: _onClick, ...props }: ClickableProps) {
   }
 }
 
-export const Clickable = defineComponent({
-  props: clickableProps,
-  setup(props, { slots }) {
-    return () => h(props.as, useClickable(props), slots)
-  },
-})
+export const Clickable = defineComponent(clickableProps, useClickable)

@@ -1,19 +1,27 @@
-import { defineComponent, h } from 'vue'
-import { boxProps, BoxProps, As } from '../box'
+import { computed, onMounted, ref } from 'vue'
+import { defineComponent } from '../utils'
+import { boxProps, BoxProps, useBox } from '../box'
 
-function getNativeTag(as: As) {
-  if (typeof as === 'string') {
-    return as
-  }
-  if (as.template != null && typeof as.template === 'string') {
-    const matches = as.template.match(/^<(\S+?)(\s|>)/)
-    return matches[1]
-  }
+function useOnElement(elementRef, use) {
+  onMounted(() => {
+    if (!elementRef.value) {
+      return
+    }
+    const element = elementRef.value.$el || elementRef.value
+    use(element)
+  })
 }
 
-function isNativeTabbable(as: As) {
-  const tag = getNativeTag(as)
-  return /^(button|input|select|textarea|a|audio|video)$/.test(tag)
+function getIsNativeTabbable(element: Element) {
+  return /^(BUTTON|INPUT|SELECT|TEXTAREA|A|AUDIO|VIDEO)$/.test(element.tagName)
+}
+
+function useIsNativeTabbable(elementRef) {
+  const isNativeTabbable = ref(false)
+  useOnElement(elementRef, (element) => {
+    isNativeTabbable.value = getIsNativeTabbable(element)
+  })
+  return isNativeTabbable
 }
 
 export interface TabbableProps extends BoxProps {
@@ -33,18 +41,21 @@ export const tabbableProps = {
   },
 }
 
-export function useTabbable({ as, disabled, focusable }: TabbableProps) {
-  const notFocusable = disabled && !focusable
+export function useTabbable(props: TabbableProps) {
+  const box = useBox()
+  const isNativeTabbable = useIsNativeTabbable(box.ref)
+  const notFocusable = computed(() => props.disabled && !props.focusable)
+
   return {
-    tabindex: notFocusable || isNativeTabbable(as) ? null : 0,
-    disabled: notFocusable && isNativeTabbable(as) ? true : null,
-    'aria-disabled': disabled ? true : null,
+    ...box,
+    tabindex: computed(() =>
+      notFocusable.value || isNativeTabbable.value ? null : 0
+    ),
+    disabled: computed(() =>
+      notFocusable.value && isNativeTabbable.value ? true : null
+    ),
+    'aria-disabled': computed(() => (props.disabled ? true : null)),
   }
 }
 
-export const Tabbable = defineComponent({
-  props: tabbableProps,
-  setup(props, { slots }) {
-    return () => h(props.as, useTabbable(props), slots)
-  },
-})
+export const Tabbable = defineComponent(tabbableProps, useTabbable)

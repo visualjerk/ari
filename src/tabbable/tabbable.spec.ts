@@ -1,6 +1,6 @@
 import { Tabbable } from '.'
 import { mount } from '@vue/test-utils'
-import { markRaw } from 'vue'
+import { markRaw, h } from 'vue'
 
 describe('Tabbable', () => {
   it('renders correctly', () => {
@@ -40,7 +40,18 @@ describe('Tabbable', () => {
     )
   })
 
-  it('renders native focusable elements correctly', () => {
+  it('disabled is reactive', async () => {
+    const wrapper = mount(Tabbable, {
+      props: { disabled: false },
+      slots: {
+        default: 'foo',
+      },
+    })
+    await wrapper.setProps({ disabled: true })
+    expect(wrapper.attributes('aria-disabled')).toEqual('true')
+  })
+
+  it('renders native focusable elements correctly', async () => {
     const wrapper = mount(Tabbable, {
       props: {
         as: 'button',
@@ -49,10 +60,11 @@ describe('Tabbable', () => {
         default: 'foo',
       },
     })
+    await wrapper.vm.$nextTick()
     expect(wrapper.html()).toMatchInlineSnapshot(`"<button>foo</button>"`)
   })
 
-  it('renders disabled native focusable elements correctly', () => {
+  it('renders disabled native focusable elements correctly', async () => {
     const wrapper = mount(Tabbable, {
       props: {
         as: 'button',
@@ -62,12 +74,13 @@ describe('Tabbable', () => {
         default: 'foo',
       },
     })
+    await wrapper.vm.$nextTick()
     expect(wrapper.html()).toMatchInlineSnapshot(
-      `"<button disabled=\\"\\" aria-disabled=\\"true\\">foo</button>"`
+      `"<button aria-disabled=\\"true\\" disabled=\\"\\">foo</button>"`
     )
   })
 
-  it('renders components with native focusable element correctly', () => {
+  it('renders components with native focusable element correctly', async () => {
     const testComp = markRaw({
       template: '<button><slot /></button>',
     })
@@ -80,6 +93,23 @@ describe('Tabbable', () => {
         default: 'foo',
       },
     })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.html()).toMatchInlineSnapshot(`"<button>foo</button>"`)
+  })
+
+  it('renders components with native focusable element correctly (render function)', async () => {
+    const testComp = markRaw({
+      render() {
+        return h('button', 'foo')
+      },
+    })
+
+    const wrapper = mount(Tabbable, {
+      props: {
+        as: testComp,
+      },
+    })
+    await wrapper.vm.$nextTick()
     expect(wrapper.html()).toMatchInlineSnapshot(`"<button>foo</button>"`)
   })
 
