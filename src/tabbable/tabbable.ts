@@ -1,16 +1,6 @@
-import { computed, onMounted, ref } from 'vue'
-import { defineComponent } from '../utils'
+import { computed, ref } from 'vue'
+import { defineComponent, useOnElement } from '../utils'
 import { boxProps, BoxProps, useBox } from '../box'
-
-function useOnElement(elementRef, use) {
-  onMounted(() => {
-    if (!elementRef.value) {
-      return
-    }
-    const element = elementRef.value.$el || elementRef.value
-    use(element)
-  })
-}
 
 function getIsNativeTabbable(element: Element) {
   return /^(BUTTON|INPUT|SELECT|TEXTAREA|A|AUDIO|VIDEO)$/.test(element.tagName)
