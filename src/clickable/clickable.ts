@@ -2,31 +2,15 @@ import { ComponentObjectPropsOptions } from 'vue'
 import { defineComponent } from '../utils'
 import { useTabbable, tabbableProps, TabbableProps } from '../tabbable'
 
-export interface ClickableProps extends TabbableProps {
-  onClick: Function
-}
+export interface ClickableProps extends TabbableProps {}
 
 export const clickableProps: ComponentObjectPropsOptions<ClickableProps> = {
   ...tabbableProps,
-  onClick: {
-    type: Function,
-    default: null,
-  },
 }
 
-export function useClickable({ onClick: _onClick, ...props }: ClickableProps) {
-  const onClick = function (event) {
-    if (props.disabled) {
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
-    return typeof _onClick === 'function' && _onClick(event)
-  }
-
+export function useClickable(props: ClickableProps) {
   return {
     ...useTabbable(props),
-    onClick,
   }
 }
 

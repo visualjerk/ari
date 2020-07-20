@@ -146,4 +146,73 @@ describe('Tabbable', () => {
     wrapper.element.focus()
     expect(wrapper.element).toEqual(document.activeElement)
   })
+
+  it('emits click event', () => {
+    const clickHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onClick: clickHandler,
+      },
+    })
+    wrapper.trigger('click')
+    expect(clickHandler).toBeCalledTimes(1)
+  })
+
+  it('emits no click event when disabled', () => {
+    const clickHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onClick: clickHandler,
+        disabled: true,
+      },
+    })
+    wrapper.trigger('click')
+    expect(clickHandler).toBeCalledTimes(0)
+  })
+
+  it('emits mousedown event', () => {
+    const mousedownHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onMousedown: mousedownHandler,
+      },
+    })
+    wrapper.trigger('mousedown')
+    expect(mousedownHandler).toBeCalledTimes(1)
+  })
+
+  it('emits no mousedown event when disabled', () => {
+    const mousedownHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onMousedown: mousedownHandler,
+        disabled: true,
+      },
+    })
+    wrapper.trigger('mousedown')
+    expect(mousedownHandler).toBeCalledTimes(0)
+  })
+
+  it('emits mouseover event', () => {
+    const mouseoverHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onMouseover: mouseoverHandler,
+      },
+    })
+    wrapper.trigger('mouseover')
+    expect(mouseoverHandler).toBeCalledTimes(1)
+  })
+
+  it('emits no mouseover event when disabled', () => {
+    const mouseoverHandler = jest.fn()
+    const wrapper = mount(Tabbable, {
+      props: {
+        onMouseover: mouseoverHandler,
+        disabled: true,
+      },
+    })
+    wrapper.trigger('mouseover')
+    expect(mouseoverHandler).toBeCalledTimes(0)
+  })
 })

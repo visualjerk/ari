@@ -12,33 +12,4 @@ describe('Clickable', () => {
       `"<div tabindex=\\"0\\">foo</div>"`
     )
   })
-
-  it('emits click event', () => {
-    const clickHandler = jest.fn()
-    const wrapper = mount(Clickable, {
-      props: {
-        onClick: clickHandler,
-      },
-      slots: {
-        default: 'foo',
-      },
-    })
-    wrapper.trigger('click')
-    expect(clickHandler).toBeCalledTimes(1)
-  })
-
-  it('emits no click event when disabled', () => {
-    const clickHandler = jest.fn()
-    const wrapper = mount(Clickable, {
-      props: {
-        onClick: clickHandler,
-        disabled: true,
-      },
-      slots: {
-        default: 'foo',
-      },
-    })
-    wrapper.trigger('click')
-    expect(clickHandler).toHaveBeenCalledTimes(0)
-  })
 })

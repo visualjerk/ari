@@ -17,6 +17,9 @@ function useIsNativeTabbable(elementRef) {
 export interface TabbableProps extends BoxProps {
   disabled: boolean
   focusable: boolean
+  onClick: Function
+  onMousedown: Function
+  onMouseover: Function
 }
 
 export const tabbableProps: ComponentObjectPropsOptions<TabbableProps> = {
@@ -29,12 +32,33 @@ export const tabbableProps: ComponentObjectPropsOptions<TabbableProps> = {
     type: Boolean,
     default: false,
   },
+  onClick: {
+    type: Function,
+    default: null,
+  },
+  onMousedown: {
+    type: Function,
+    default: null,
+  },
+  onMouseover: {
+    type: Function,
+    default: null,
+  },
 }
 
 export function useTabbable(props: TabbableProps) {
   const box = useBox()
   const isNativeTabbable = useIsNativeTabbable(box.ref)
   const notFocusable = computed(() => props.disabled && !props.focusable)
+
+  const handleNativeEvent = (eventName) => (event) => {
+    if (props.disabled) {
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
+    return typeof props[eventName] === 'function' && props[eventName](event)
+  }
 
   return {
     ...box,
@@ -45,6 +69,9 @@ export function useTabbable(props: TabbableProps) {
       notFocusable.value && isNativeTabbable.value ? true : null
     ),
     'aria-disabled': computed(() => (props.disabled ? true : null)),
+    onClick: handleNativeEvent('onClick'),
+    onMousedown: handleNativeEvent('onMousedown'),
+    onMouseover: handleNativeEvent('onMouseover'),
   }
 }
 
