@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, ComponentObjectPropsOptions } from 'vue'
 import { defineComponent, useOnElement } from '../utils'
 import { boxProps, BoxProps, useBox } from '../box'
 
@@ -19,7 +19,7 @@ export interface TabbableProps extends BoxProps {
   focusable: boolean
 }
 
-export const tabbableProps = {
+export const tabbableProps: ComponentObjectPropsOptions<TabbableProps> = {
   ...boxProps,
   disabled: {
     type: Boolean,

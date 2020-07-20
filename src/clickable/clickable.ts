@@ -1,3 +1,4 @@
+import { ComponentObjectPropsOptions } from 'vue'
 import { defineComponent } from '../utils'
 import { useTabbable, tabbableProps, TabbableProps } from '../tabbable'
 
@@ -5,7 +6,7 @@ export interface ClickableProps extends TabbableProps {
   onClick: Function
 }
 
-export const clickableProps = {
+export const clickableProps: ComponentObjectPropsOptions<ClickableProps> = {
   ...tabbableProps,
   onClick: {
     type: Function,
