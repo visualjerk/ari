@@ -11,8 +11,11 @@ export const clickableProps: ComponentObjectPropsOptions<ClickableProps> = {
 export function useClickable(props: ClickableProps) {
   const tabbable = useTabbable(props)
 
-  function handleKeydown(event: KeyboardEvent) {
-    if (['space', 'enter'].includes(event.key)) {
+  function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
+    if (
+      event.target?.tagName !== 'BUTTON' &&
+      [' ', 'Enter'].includes(event.key)
+    ) {
       tabbable.onClick(event)
     }
   }

@@ -25,7 +25,7 @@ function refsToAttributes(refs: Object): Object {
 export function defineComponent<P extends VNodeProps>(
   componentProps: ComponentObjectPropsOptions<P>,
   useAttributeRefs: { (props: VNodeProps | P): Object }
-) {
+): any & JSX.Element {
   return vueDefineComponent({
     props: componentProps,
     setup(props: VNodeProps, { slots }) {
