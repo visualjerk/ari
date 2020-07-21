@@ -14,7 +14,7 @@ const createPress = (key) => async (element: Element & { focus: Function }) => {
   element.focus()
 
   // userEvent does not yet support this
-  // TODO: create ticket for https://codesandbox.io/s/angry-bas-bttix?file=/src/user-event.test.js
+  // https://github.com/testing-library/user-event/issues/406
   if (key === ' ' && element.tagName === 'BUTTON') {
     click(element)
   }
@@ -23,7 +23,7 @@ const createPress = (key) => async (element: Element & { focus: Function }) => {
     await type(element, key, { skipClick: true })
   } catch (error) {
     // Ignore userEvent TypeError when called on an element without a value property
-    // TODO: create ticket for https://codesandbox.io/s/agitated-meitner-3zhxf?file=/src/user-event.test.js
+    // https://github.com/testing-library/user-event/issues/407
     if (!(error instanceof TypeError)) {
       throw error
     }
