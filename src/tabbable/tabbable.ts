@@ -51,7 +51,7 @@ export function useTabbable(props: TabbableProps) {
   const isNativeTabbable = useIsNativeTabbable(box.ref)
   const notFocusable = computed(() => props.disabled && !props.focusable)
 
-  const handleNativeEvent = (eventName) => (event) => {
+  const handleNativeEvent = (eventName) => (event: Event) => {
     if (props.disabled) {
       event.preventDefault()
       event.stopPropagation()
