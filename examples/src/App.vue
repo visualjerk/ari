@@ -1,27 +1,19 @@
 <template>
   <div>
-    <Clickable @click="handleClick">Clickable</Clickable>
-    <Clickable @click="handleClick" disabled>Clickable disabled</Clickable>
-    <Clickable @click="handleClick" disabled focusable
-      >Clickable focusable</Clickable
-    >
-    <Clickable @click="handleClick" as="button">Clickable button</Clickable>
-    <Tabbable @click="handleClick">Tabbable</Tabbable>
-    <Tabbable @click="handleClick" disabled>Tabbable disabled</Tabbable>
-    <Tabbable @click="handleClick" disabled focusable
-      >Tabbable focusable</Tabbable
-    >
-    <Tabbable @click="handleClick" as="button">Tabbable button</Tabbable>
+    <TestButton @click="handleClick">Button</TestButton>
+    <TestButton @click="handleClick" disabled>Button</TestButton>
   </div>
 </template>
 
 <script>
 import { Clickable } from 'ari-vue/src/clickable'
 import { Tabbable } from 'ari-vue/src/tabbable'
+import TestButton from './TestButton.vue'
 
 export default {
   name: 'App',
   components: {
+    TestButton,
     Clickable,
     Tabbable,
   },
