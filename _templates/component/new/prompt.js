@@ -10,7 +10,7 @@ module.exports = {
         {
           type: 'input',
           name: 'parent',
-          message: 'An what component should it build on?',
+          message: 'On what component should it depend?',
         },
       ])
       .then((answers) => {
