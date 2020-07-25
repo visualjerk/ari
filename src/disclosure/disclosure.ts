@@ -1,22 +1,13 @@
 import { ComponentObjectPropsOptions, computed } from 'vue'
 import { defineComponent } from '../utils'
 import { useButton, buttonProps, ButtonProps } from '../button'
+import { DisclosureStateProps, disclosureStateProps } from './disclosureState'
 
-export interface DisclosureProps extends ButtonProps {
-  baseId: string
-  visible: boolean
-}
+export interface DisclosureProps extends ButtonProps, DisclosureStateProps {}
 
 export const disclosureProps: ComponentObjectPropsOptions<DisclosureProps> = {
   ...buttonProps,
-  baseId: {
-    type: String,
-    required: true,
-  },
-  visible: {
-    type: Boolean,
-    required: true,
-  },
+  ...disclosureStateProps,
 }
 
 export function useDisclosure(props: DisclosureProps) {
