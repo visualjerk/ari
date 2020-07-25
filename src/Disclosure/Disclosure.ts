@@ -1,6 +1,6 @@
 import { ComponentObjectPropsOptions, computed } from 'vue'
 import { defineComponent } from '../utils'
-import { useButton, buttonProps, ButtonProps } from '../button'
+import { useButton, buttonProps, ButtonProps } from '../Button'
 import { DisclosureStateProps, disclosureStateProps } from './disclosureState'
 
 export interface DisclosureProps extends ButtonProps, DisclosureStateProps {}

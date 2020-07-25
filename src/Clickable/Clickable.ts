@@ -1,6 +1,6 @@
 import { ComponentObjectPropsOptions } from 'vue'
 import { defineComponent } from '../utils'
-import { useTabbable, tabbableProps, TabbableProps } from '../tabbable'
+import { useTabbable, tabbableProps, TabbableProps } from '../Tabbable'
 
 export interface ClickableProps extends TabbableProps {}
 

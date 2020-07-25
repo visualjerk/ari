@@ -1,6 +1,6 @@
 import { computed, ref, ComponentObjectPropsOptions } from 'vue'
 import { defineComponent, useOnElement } from '../utils'
-import { boxProps, BoxProps, useBox } from '../box'
+import { boxProps, BoxProps, useBox } from '../Box'
 
 function getIsNativeTabbable(element: Element) {
   return /^(BUTTON|INPUT|SELECT|TEXTAREA|A|AUDIO|VIDEO)$/.test(element.tagName)
