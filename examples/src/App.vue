@@ -6,16 +6,12 @@
 </template>
 
 <script>
-import { Clickable } from 'ari-vue/src/clickable'
-import { Tabbable } from 'ari-vue/src/tabbable'
 import TestButton from './TestButton.vue'
 
 export default {
   name: 'App',
   components: {
     TestButton,
-    Clickable,
-    Tabbable,
   },
   methods: {
     handleClick() {
