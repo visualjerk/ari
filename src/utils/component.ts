@@ -2,9 +2,10 @@ import {
   h,
   unref,
   defineComponent as vueDefineComponent,
-  VNodeProps,
   ComponentObjectPropsOptions,
 } from 'vue'
+
+import { As } from '../box'
 
 function addRefToAttributes(attributes, ref) {
   const [key, value] = ref
@@ -22,13 +23,13 @@ function refsToAttributes(refs: Object): Object {
   return Object.entries(refs).reduce(addRefToAttributes, {})
 }
 
-export function defineComponent<P extends VNodeProps>(
+export function defineComponent<P extends Object>(
   componentProps: ComponentObjectPropsOptions<P>,
-  useAttributeRefs: { (props: VNodeProps | P): Object }
+  useAttributeRefs: { (props: Object | P): Object }
 ): any & JSX.Element {
   return vueDefineComponent({
     props: componentProps,
-    setup(props: VNodeProps, { slots }) {
+    setup(props: Object, { slots }) {
       const attributeRefs = useAttributeRefs(props)
       return () => {
         const attributes = refsToAttributes(attributeRefs)

@@ -33,9 +33,7 @@ describe('Button', () => {
     // type="" seems to be a bug in Vue
     // https://github.com/vuejs/vue-next/issues/1701
     expect(getByText('foo')).toMatchInlineSnapshot(`
-      <a
-        type=""
-      >
+      <a>
         foo
       </a>
     `)
