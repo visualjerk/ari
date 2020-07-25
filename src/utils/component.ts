@@ -5,8 +5,6 @@ import {
   ComponentObjectPropsOptions,
 } from 'vue'
 
-import { As } from '../box'
-
 function addRefToAttributes(attributes, ref) {
   const [key, value] = ref
 
