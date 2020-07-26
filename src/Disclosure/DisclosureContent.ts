@@ -1,15 +1,15 @@
 import { ComponentObjectPropsOptions, computed } from 'vue'
 import { defineComponent } from '../utils'
-import { disclosureStateProps, DisclosureStateProps } from './DisclosureState'
 import { useBox, boxProps, BoxProps } from '../Box'
+import { disclosureStateReturn, DisclosureStateReturn } from './DisclosureState'
 
 export interface DisclosureContentProps
   extends BoxProps,
-    DisclosureStateProps {}
+    DisclosureStateReturn {}
 
 export const disclosureContentProps: ComponentObjectPropsOptions<DisclosureContentProps> = {
   ...boxProps,
-  ...disclosureStateProps,
+  ...disclosureStateReturn,
 }
 
 export function useDisclosureContent(props: DisclosureContentProps) {

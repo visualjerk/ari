@@ -1,5 +1,5 @@
-import { DisclosureContent } from '.'
-import { renderJsx, getByText } from '../../test/utils'
+import { DisclosureContent } from '..'
+import { renderJsx, getByText } from '../../../test/utils'
 
 describe('DisclosureContent', () => {
   it('renders correctly', async () => {

@@ -1,13 +1,13 @@
 import { ComponentObjectPropsOptions, computed } from 'vue'
 import { defineComponent } from '../utils'
 import { useButton, buttonProps, ButtonProps } from '../Button'
-import { DisclosureStateProps, disclosureStateProps } from './DisclosureState'
+import { disclosureStateReturn, DisclosureStateReturn } from './DisclosureState'
 
-export interface DisclosureProps extends ButtonProps, DisclosureStateProps {}
+export interface DisclosureProps extends ButtonProps, DisclosureStateReturn {}
 
 export const disclosureProps: ComponentObjectPropsOptions<DisclosureProps> = {
   ...buttonProps,
-  ...disclosureStateProps,
+  ...disclosureStateReturn,
 }
 
 export function useDisclosure(props: DisclosureProps) {
@@ -17,6 +17,7 @@ export function useDisclosure(props: DisclosureProps) {
     ...button,
     'aria-expanded': computed(() => (props.visible ? 'true' : 'false')),
     'aria-controls': props.baseId,
+    onClick: props.toggle,
   }
 }
 
