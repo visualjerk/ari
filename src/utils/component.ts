@@ -17,7 +17,7 @@ function addRefToAttributes(attributes, ref) {
   return attributes
 }
 
-function refsToAttributes(refs: Object): Object {
+export function refsToAttributes(refs: Object): Object {
   return Object.entries(refs).reduce(addRefToAttributes, {})
 }
 
