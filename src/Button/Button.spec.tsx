@@ -9,7 +9,7 @@ describe('Button', () => {
       <button
         type="button"
       >
-        foo
+        foo 1
       </button>
     `)
   })
