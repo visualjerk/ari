@@ -1,7 +1,14 @@
 <template>
   <div>
-    <TestButton @click="handleClick">Button</TestButton>
-    <TestButton @click="handleClick" disabled>Button</TestButton>
+    <TestButton @click="handleClick">
+      Button
+    </TestButton>
+    <TestButton
+      disabled
+      @click="handleClick"
+    >
+      Button
+    </TestButton>
   </div>
 </template>
 

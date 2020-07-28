@@ -2,7 +2,7 @@ import { ComponentObjectPropsOptions, ref, computed } from 'vue'
 import { defineComponent, useOnElement } from '../utils'
 import { useClickable, clickableProps, ClickableProps } from '../Clickable'
 
-export interface ButtonProps extends ClickableProps {}
+export type ButtonProps = ClickableProps
 
 export const buttonProps: ComponentObjectPropsOptions<ButtonProps> = {
   ...clickableProps,

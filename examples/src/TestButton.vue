@@ -18,9 +18,9 @@ import { Clickable, clickableProps } from 'ari-vue/src/Clickable'
 
 export default {
   name: 'TestButton',
-  props: clickableProps,
   components: {
     Clickable,
   },
+  props: clickableProps,
 }
 </script>

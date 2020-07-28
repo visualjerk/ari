@@ -2,7 +2,7 @@ import { ComponentObjectPropsOptions } from 'vue'
 import { defineComponent } from '../utils'
 import { useDisclosure, disclosureProps, DisclosureProps } from '../Disclosure'
 
-export interface DialogDisclosureProps extends DisclosureProps {}
+export type DialogDisclosureProps = DisclosureProps
 
 export const dialogDisclosureProps: ComponentObjectPropsOptions<DialogDisclosureProps> = {
   ...disclosureProps,
