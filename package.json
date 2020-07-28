@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "eslint . --ext js,ts,tsx,vue --fix",
-    "test": "jest",
-    "new": "yarn hygen component new"
+    "test": "jest"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.3"
@@ -27,7 +26,6 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-vue": "^7.0.0-beta.0",
     "husky": ">=4",
-    "hygen": "^6.0.4",
     "jest": "^26.1.0",
     "lint-staged": ">=10",
     "prettier": "^2.0.5",
