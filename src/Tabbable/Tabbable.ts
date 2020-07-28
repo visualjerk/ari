@@ -1,4 +1,4 @@
-import { computed, ref, ComponentObjectPropsOptions } from 'vue'
+import { computed, ref, ComponentObjectPropsOptions, PropType } from 'vue'
 import { defineComponent, useOnElement } from '../utils'
 import { boxProps, BoxProps, useBox } from '../Box'
 
@@ -17,9 +17,9 @@ function useIsNativeTabbable(elementRef) {
 export interface TabbableProps extends BoxProps {
   disabled: boolean
   focusable: boolean
-  onClick: Function
-  onMousedown: Function
-  onMouseover: Function
+  onClick: () => void
+  onMousedown: () => void
+  onMouseover: () => void
 }
 
 export const tabbableProps: ComponentObjectPropsOptions<TabbableProps> = {
@@ -33,15 +33,15 @@ export const tabbableProps: ComponentObjectPropsOptions<TabbableProps> = {
     default: false,
   },
   onClick: {
-    type: Function,
+    type: Function as PropType<() => void>,
     default: null,
   },
   onMousedown: {
-    type: Function,
+    type: Function as PropType<() => void>,
     default: null,
   },
   onMouseover: {
-    type: Function,
+    type: Function as PropType<() => void>,
     default: null,
   },
 }

@@ -1,9 +1,4 @@
-import {
-  h,
-  unref,
-  defineComponent as vueDefineComponent,
-  ComponentObjectPropsOptions,
-} from 'vue'
+import { h, unref, defineComponent as vueDefineComponent } from 'vue'
 
 function addRefToAttributes(attributes, ref) {
   const [key, value] = ref
@@ -17,17 +12,14 @@ function addRefToAttributes(attributes, ref) {
   return attributes
 }
 
-export function refsToAttributes(refs: Object): Object {
+export function refsToAttributes(refs) {
   return Object.entries(refs).reduce(addRefToAttributes, {})
 }
 
-export function defineComponent<P extends Object>(
-  componentProps: ComponentObjectPropsOptions<P>,
-  useAttributeRefs: { (props: Object | P): Object }
-): any & JSX.Element {
+export function defineComponent(componentProps, useAttributeRefs) {
   return vueDefineComponent({
     props: componentProps,
-    setup(props: Object, { slots }) {
+    setup(props, { slots }) {
       const attributeRefs = useAttributeRefs(props)
       return () => {
         const attributes = refsToAttributes(attributeRefs)

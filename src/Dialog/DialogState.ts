@@ -5,7 +5,7 @@ import {
   useDisclosureState,
 } from '../Disclosure'
 
-export interface DialogStateReturn extends DisclosureStateReturn {}
+export type DialogStateReturn = DisclosureStateReturn
 
 export const dialogStateReturn: ComponentObjectPropsOptions<DialogStateReturn> = {
   ...disclosureStateReturn,

@@ -7,7 +7,7 @@ import {
 } from '../Disclosure'
 import { Portal } from '../Portal'
 
-export interface DialogProps extends DisclosureContentProps {}
+export type DialogProps = DisclosureContentProps
 
 export const dialogProps: ComponentObjectPropsOptions<DialogProps> = {
   ...disclosureContentProps,

@@ -1,13 +1,13 @@
-import { ComponentObjectPropsOptions, ref, Ref } from 'vue'
+import { ComponentObjectPropsOptions, ref, Ref, PropType } from 'vue'
 
 let currentIdCount = 0
 
 export interface DisclosureStateReturn {
   baseId: string
   visible: Ref<boolean>
-  show: Function
-  hide: Function
-  toggle: Function
+  show: () => void
+  hide: () => void
+  toggle: () => void
 }
 
 export const disclosureStateReturn: ComponentObjectPropsOptions<DisclosureStateReturn> = {
@@ -19,13 +19,13 @@ export const disclosureStateReturn: ComponentObjectPropsOptions<DisclosureStateR
     required: true,
   },
   show: {
-    type: Function,
+    type: Function as PropType<() => void>,
   },
   hide: {
-    type: Function,
+    type: Function as PropType<() => void>,
   },
   toggle: {
-    type: Function,
+    type: Function as PropType<() => void>,
   },
 }
 

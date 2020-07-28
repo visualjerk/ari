@@ -1,0 +1,10 @@
+{
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "vue"
+  ]
+}

@@ -10,7 +10,9 @@ export const mousedown = (element: Element) =>
 export const mouseover = (element: Element) =>
   fireEvent(element, new MouseEvent('mouseover'))
 
-const createPress = (key) => async (element: Element & { focus: Function }) => {
+const createPress = (key) => async (
+  element: Element & { focus: () => void }
+) => {
   element.focus()
   await type(element, key, { skipClick: true })
 }
