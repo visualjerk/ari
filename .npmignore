@@ -1,0 +1,9 @@
+node_modules
+coverage
+.DS_Store
+dist
+*.local
+.eslintcache
+examples
+.vscode
+.github
