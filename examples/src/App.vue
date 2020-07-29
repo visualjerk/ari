@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TestButton from './TestButton.vue'
+import TestButton from './MyButton.vue'
 
 export default {
   name: 'App',
