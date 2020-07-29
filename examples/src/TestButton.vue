@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { Clickable, clickableProps } from 'ari-vue/src/Clickable'
+import { Clickable, clickableProps } from 'ari-vue'
 
 export default {
   name: 'TestButton',

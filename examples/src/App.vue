@@ -3,10 +3,7 @@
     <TestButton @click="handleClick">
       Button
     </TestButton>
-    <TestButton
-      disabled
-      @click="handleClick"
-    >
+    <TestButton disabled @click="handleClick">
       Button
     </TestButton>
   </div>
