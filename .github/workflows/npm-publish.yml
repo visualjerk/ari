@@ -20,7 +20,7 @@ jobs:
 
       - name: Test
         run: yarn test
-        
+
       - name: Build
         run: yarn build
 
@@ -36,7 +36,7 @@ jobs:
       - run: yarn build
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
   publish-gpr:
     needs: build
