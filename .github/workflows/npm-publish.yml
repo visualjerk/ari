@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 12
       - name: Install dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
 
       - name: Lint
         run: yarn lint
@@ -33,6 +33,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
+      - run: yarn --frozen-lockfile
       - run: yarn build
       - run: npm publish
         env:
@@ -47,6 +48,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+      - run: yarn --frozen-lockfile
       - run: yarn build
       - run: npm publish
         env:
