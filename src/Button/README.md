@@ -1,9 +1,6 @@
-# Ari
+# Button
 
-Accessible unstyled Vue components inspired by Reakit.
-
-[![CI](https://github.com/visualjerk/ari/workflows/CI/badge.svg)](https://github.com/visualjerk/ari/actions)
-[![Test Coverage](https://codecov.io/gh/visualjerk/ari/branch/master/graph/badge.svg)](https://codecov.io/gh/visualjerk/ari)
+Accessible `Button` component that enables users to trigger an action or event, such as submitting a Form, opening a Dialog, canceling an action, or performing a delete operation. It follows the [WAI-ARIA Button Pattern](https://www.w3.org/TR/wai-aria-practices/#button).
 
 ## Installation
 
@@ -19,33 +16,9 @@ yarn add vue-ari
 
 ## Usage
 
-```vue
-<template>
-  <Button v-bind="$props">
-    <slot />
-  </Button>
-</template>
+Ari components are meant to be used as base components for you own components.
 
-<script>
-import { Button, buttonProps } from 'vue-ari'
-
-export default {
-  name: 'AppButton',
-  components: {
-    Button,
-  },
-  props: buttonProps,
-}
-</script>
-```
-
-## Styling
-
-Ari components are unstyled by default. That means you got some work to do.
-
-It also means you are not bound to some opinionated styling.
-
-You have complete freedom in creating your own visual appearance from ari base components.
+They bring the functionality, you bring the styles.
 
 ```vue
 <template>
