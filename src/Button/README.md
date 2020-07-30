@@ -28,14 +28,14 @@ They bring the functionality, you bring the styles.
 </template>
 
 <script>
-import { Clickable, clickableProps } from 'vue-ari'
+import { Button, buttonProps } from 'vue-ari'
 
 export default {
   name: 'AppButton',
   components: {
-    Clickable,
+    Button,
   },
-  props: clickableProps,
+  props: buttonProps,
 }
 </script>
 

@@ -55,14 +55,14 @@ You have complete freedom in creating your own visual appearance from ari base c
 </template>
 
 <script>
-import { Clickable, clickableProps } from 'vue-ari'
+import { Button, buttonProps } from 'vue-ari'
 
 export default {
   name: 'AppButton',
   components: {
-    Clickable,
+    Button,
   },
-  props: clickableProps,
+  props: buttonProps,
 }
 </script>
 
