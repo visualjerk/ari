@@ -1,9 +1,11 @@
 # Ari
 
-Accessible unstyled Vue components inspired by Reakit.
-
 [![CI](https://github.com/visualjerk/ari/workflows/CI/badge.svg)](https://github.com/visualjerk/ari/actions)
 [![Test Coverage](https://codecov.io/gh/visualjerk/ari/branch/master/graph/badge.svg)](https://codecov.io/gh/visualjerk/ari)
+
+Accessible unstyled Vue components inspired by Reakit.
+
+Try it on [Codesandbox](https://codesandbox.io/s/old-morning-9jcgn?file=/src/components/AppButton.vue).
 
 ## Installation
 
