@@ -1,5 +1,5 @@
-import { DialogDisclosure } from '.'
-import { renderJsx, getByText } from '../../test/utils'
+import { DialogDisclosure } from '..'
+import { renderJsx, getByText } from '../../../test/utils'
 
 describe('DialogDisclosure', () => {
   it('renders correctly', async () => {

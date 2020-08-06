@@ -1,5 +1,5 @@
-import { Dialog } from '.'
-import { renderJsx, getByText } from '../../test/utils'
+import { Dialog } from '..'
+import { renderJsx, getByText } from '../../../test/utils'
 
 describe('Dialog', () => {
   it('renders correctly', async () => {
