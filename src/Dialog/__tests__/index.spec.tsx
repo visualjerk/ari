@@ -245,4 +245,94 @@ describe('Dialog Composition', () => {
     await nextTick()
     expect(getByText('inner')).toHaveFocus()
   })
+
+  it('tab on disclosure focuses first tabbable element', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar<button>inner</button></Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(getByText('inner')).toHaveFocus()
+  })
+
+  it('tab on disclosure focuses dialog with tabindex 0', async () => {
+    const { content, disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog" tabindex="0">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(content).toHaveFocus()
+  })
+
+  it('tab on disclosure focuses next element when dialog is hidden', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar<button>inner</button></Dialog>
+    </div>
+      `,
+    })
+    disclosure.focus()
+    tab()
+    await nextTick()
+    expect(getByText('next')).toHaveFocus()
+  })
+
+  it('focus out from disclosure hides dialog', async () => {
+    const { content, disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <button>first</button>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <Dialog v-bind="dialog">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    expect(content).not.toBeVisible()
+  })
+
+  it('focus out from dialog hides dialog', async () => {
+    const { content, disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(content).not.toBeVisible()
+  })
 })

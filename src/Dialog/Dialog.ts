@@ -10,6 +10,8 @@ import {
   refsToAttributes,
   getTabbableElements,
   getNextTabbable,
+  elementIsWithin,
+  focusIsWithin,
 } from '../utils'
 import {
   useDisclosureContent,
@@ -28,7 +30,7 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
   const { hide } = props
 
   function hideOnClickOutside(event: MouseEvent) {
-    if (!ref.value?.contains(event.target as HTMLElement)) {
+    if (!elementIsWithin(ref.value, event.target as HTMLElement)) {
       hide()
     }
   }
@@ -37,15 +39,47 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
     () => props.visible,
     (visible) => {
       if (visible) {
-        window.addEventListener('click', hideOnClickOutside)
+        document.addEventListener('click', hideOnClickOutside)
       } else {
-        window.removeEventListener('click', hideOnClickOutside)
+        document.removeEventListener('click', hideOnClickOutside)
       }
     }
   )
 
   onBeforeUnmount(() => {
-    window.removeEventListener('click', hideOnClickOutside)
+    document.removeEventListener('click', hideOnClickOutside)
+  })
+}
+
+function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
+  const { hide, baseId } = props
+
+  function hideOnFocusOutside(event: FocusEvent) {
+    const disclosure: HTMLElement = document.querySelector(
+      `[aria-controls="${baseId}"]`
+    )
+    if (
+      props.visible &&
+      !elementIsWithin(ref.value, event.target as HTMLElement) &&
+      !elementIsWithin(disclosure, event.target as HTMLElement)
+    ) {
+      hide()
+    }
+  }
+
+  watch(
+    () => props.visible,
+    (visible) => {
+      if (visible) {
+        document.addEventListener('focusin', hideOnFocusOutside)
+      } else {
+        document.removeEventListener('focusin', hideOnFocusOutside)
+      }
+    }
+  )
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('focusin', hideOnFocusOutside)
   })
 }
 
@@ -60,7 +94,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     (visible) => {
       if (visible) {
         focusFirstFocusable(ref.value)
-      } else {
+      } else if (focusIsWithin(ref.value)) {
         const disclosure: HTMLElement = document.querySelector(
           `[aria-controls="${props.baseId}"]`
         )
@@ -105,6 +139,7 @@ export function useDialog(props: DialogProps) {
   const disclosureContent = useDisclosureContent(props)
   const { ref } = disclosureContent
   useHideOnClickOutside(props, ref)
+  useHideOnFocusOutside(props, ref)
   useHandleToggleFocus(props, ref)
 
   function handleKeydown(event: KeyboardEvent) {

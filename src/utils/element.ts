@@ -34,3 +34,13 @@ export function getNextTabbable(element: HTMLElement): HTMLElement {
   const indexOfElement = tabbableElements.indexOf(element)
   return tabbableElements[indexOfElement + 1]
 }
+
+export function focusIsWithin(element: HTMLElement) {
+  return elementIsWithin(element, document.activeElement as HTMLElement)
+}
+export function elementIsWithin(container: HTMLElement, element: HTMLElement) {
+  if (!container || !element) {
+    return false
+  }
+  return container.contains(element as HTMLElement)
+}
