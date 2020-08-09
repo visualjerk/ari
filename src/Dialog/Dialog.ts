@@ -27,10 +27,17 @@ export const dialogProps: ComponentObjectPropsOptions<DialogProps> = {
 }
 
 function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
-  const { hide } = props
+  const { hide, baseId } = props
 
   function hideOnClickOutside(event: MouseEvent) {
-    if (!elementIsWithin(ref.value, event.target as HTMLElement)) {
+    const disclosure: HTMLElement = document.querySelector(
+      `[aria-controls="${baseId}"]`
+    )
+    if (
+      props.visible &&
+      !elementIsWithin(ref.value, event.target as HTMLElement) &&
+      !elementIsWithin(disclosure, event.target as HTMLElement)
+    ) {
       hide()
     }
   }
