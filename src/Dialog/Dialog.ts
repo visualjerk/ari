@@ -121,8 +121,11 @@ function handleTab(
   )
   const tabbableElements = getTabbableElements(ref.value)
   if (!event.shiftKey && reachedLastTabbable(tabbableElements)) {
-    getNextTabbable(disclosure)?.focus()
-    event.preventDefault()
+    const nextTabbable = getNextTabbable(disclosure)
+    if (nextTabbable) {
+      nextTabbable.focus()
+      event.preventDefault()
+    }
   } else if (event.shiftKey && reachedFirstTabbable(tabbableElements)) {
     disclosure.focus()
     event.preventDefault()
