@@ -6,6 +6,7 @@ import {
   pressEnter,
   pressSpace,
   pressEsc,
+  tab,
 } from '../../../test/utils'
 
 function createTestSetup({
@@ -173,5 +174,75 @@ describe('Dialog Composition', () => {
     click(content)
     await nextTick()
     expect(content).toBeVisible()
+  })
+
+  it('tab focuses element after disclosure', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(getByText('next')).toHaveFocus()
+  })
+
+  it('shift tab focuses disclosure', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    expect(disclosure).toHaveFocus()
+  })
+
+  it('tab focuses inner tabbable elements', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar<button>inner</button><button>nextinner</button></Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(getByText('nextinner')).toHaveFocus()
+  })
+
+  it('shift tab focuses inner tabbable elements', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <button>next</button>
+      <Dialog v-bind="dialog">bar<button>inner</button><button>nextinner</button></Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    tab({ shift: true })
+    await nextTick()
+    expect(getByText('inner')).toHaveFocus()
   })
 })

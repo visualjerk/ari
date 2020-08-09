@@ -6,7 +6,11 @@ import {
   onBeforeUnmount,
   h,
 } from 'vue'
-import { refsToAttributes, getFocusableElements } from '../utils'
+import {
+  refsToAttributes,
+  getTabbableElements,
+  getNextTabbable,
+} from '../utils'
 import {
   useDisclosureContent,
   disclosureContentProps,
@@ -46,14 +50,8 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
 }
 
 function focusFirstFocusable(element: HTMLElement) {
-  if (element.getAttribute('tabindex') === '0') {
-    element.focus()
-    return
-  }
-
-  const focusable = getFocusableElements(element)
-  const focusElement = focusable[0] || element
-  focusElement.focus()
+  const elementToFocus = getTabbableElements(element)[0] || element
+  elementToFocus.focus()
 }
 
 function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
@@ -72,6 +70,37 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
   )
 }
 
+function handleTab(
+  event: KeyboardEvent,
+  props: DialogProps,
+  ref: Ref<HTMLElement>
+) {
+  const disclosure: HTMLElement = document.querySelector(
+    `[aria-controls="${props.baseId}"]`
+  )
+  const tabbableElements = getTabbableElements(ref.value)
+  if (!event.shiftKey && reachedLastTabbable(tabbableElements)) {
+    getNextTabbable(disclosure)?.focus()
+    event.preventDefault()
+  } else if (event.shiftKey && reachedFirstTabbable(tabbableElements)) {
+    disclosure.focus()
+    event.preventDefault()
+  }
+
+  function reachedLastTabbable(tabbableElements) {
+    return (
+      !tabbableElements.length ||
+      tabbableElements[tabbableElements.length - 1] === document.activeElement
+    )
+  }
+
+  function reachedFirstTabbable(tabbableElements) {
+    return (
+      !tabbableElements.length || tabbableElements[0] === document.activeElement
+    )
+  }
+}
+
 export function useDialog(props: DialogProps) {
   const disclosureContent = useDisclosureContent(props)
   const { ref } = disclosureContent
@@ -81,6 +110,9 @@ export function useDialog(props: DialogProps) {
   function handleKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       props.hide()
+    }
+    if (event.key === 'Tab') {
+      handleTab(event, props, ref)
     }
   }
 

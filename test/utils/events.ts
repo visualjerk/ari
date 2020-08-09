@@ -2,7 +2,7 @@ import { getByText as _getByText, fireEvent } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 export const getByText = (text) => _getByText(document.body, text)
-export const { click, dblClick } = userEvent
+export const { click, dblClick, tab } = userEvent
 
 type TypeOptions = {
   delay?: number
