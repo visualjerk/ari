@@ -101,12 +101,23 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     (visible) => {
       if (visible) {
         focusFirstFocusable(ref.value)
-      } else if (focusIsWithin(ref.value)) {
+      }
+    }
+  )
+  // Needs to be a 'sync' watcher, so we can check
+  // if focus was within the dialog before it is closed
+  watch(
+    () => props.visible,
+    (visible) => {
+      if (!visible && focusIsWithin(ref.value)) {
         const disclosure: HTMLElement = document.querySelector(
           `[aria-controls="${props.baseId}"]`
         )
         disclosure.focus()
       }
+    },
+    {
+      flush: 'sync',
     }
   )
 }
