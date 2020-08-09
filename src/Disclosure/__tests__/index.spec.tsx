@@ -39,24 +39,36 @@ describe('Disclosure Composition', () => {
     expect(content).not.toBeVisible()
   })
 
-  it('disclosure toggles content visibility', async () => {
+  it('disclosure opens content', async () => {
     expect(content).not.toBeVisible()
     click(disclosure)
     await nextTick()
     expect(content).toBeVisible()
   })
 
-  it('disclosure toggles content with enter', async () => {
+  it('disclosure closes content', async () => {
+    click(disclosure)
+    await nextTick()
+    click(disclosure)
+    await nextTick()
     expect(content).not.toBeVisible()
+  })
+
+  it('disclosure toggles content with enter', async () => {
     pressEnter(disclosure)
     await nextTick()
     expect(content).toBeVisible()
+    pressEnter(disclosure)
+    await nextTick()
+    expect(content).not.toBeVisible()
   })
 
   it('disclosure toggles content with space', async () => {
-    expect(content).not.toBeVisible()
     pressSpace(disclosure)
     await nextTick()
     expect(content).toBeVisible()
+    pressSpace(disclosure)
+    await nextTick()
+    expect(content).not.toBeVisible()
   })
 })

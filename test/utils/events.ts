@@ -2,7 +2,26 @@ import { getByText as _getByText, fireEvent } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 export const getByText = (text) => _getByText(document.body, text)
-export const { click, dblClick, type } = userEvent
+export const { click, dblClick } = userEvent
+
+type TypeOptions = {
+  delay?: number
+  skipClick?: boolean
+  skipAutoClose?: boolean
+  initialSelectionStart?: number
+  initialSelectionEnd?: number
+}
+
+export const type = (
+  element: Element,
+  text: string,
+  options: TypeOptions = {}
+) => {
+  if (options.skipClick == null) {
+    options.skipClick = true
+  }
+  return userEvent.type(element, text, options)
+}
 
 export const mousedown = (element: Element) =>
   fireEvent(element, new MouseEvent('mousedown'))
@@ -14,8 +33,9 @@ const createPress = (key) => async (
   element: Element & { focus: () => void }
 ) => {
   element.focus()
-  await type(element, key, { skipClick: true })
+  await type(element, key)
 }
 
 export const pressSpace = createPress(' ')
 export const pressEnter = createPress('{enter}')
+export const pressEsc = createPress('{esc}')

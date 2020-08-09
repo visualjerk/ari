@@ -1,5 +1,5 @@
 import { defineComponent } from '../utils'
-import { ComponentOptions, ComponentObjectPropsOptions, ref } from 'vue'
+import { ComponentOptions, ComponentObjectPropsOptions, ref, Ref } from 'vue'
 
 export type As = string | ComponentOptions
 
@@ -14,7 +14,9 @@ export const boxProps: ComponentObjectPropsOptions<BoxProps> = {
   },
 }
 
-export function useBox() {
+export function useBox(): {
+  ref: Ref<HTMLElement>
+} {
   return {
     ref: ref(null),
   }

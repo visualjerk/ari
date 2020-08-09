@@ -22,7 +22,7 @@ describe('Dialog', () => {
     `)
   })
 
-  it('should be rendered in portal', async () => {
+  it('renders in portal', async () => {
     const { nextTick } = renderJsx(
       <div>
         container
@@ -33,5 +33,37 @@ describe('Dialog', () => {
     )
     await nextTick()
     expect(getByText('foo').parentElement).not.toBe(getByText('container'))
+  })
+
+  it('renders native attributes', async () => {
+    const { nextTick } = renderJsx(
+      <Dialog baseId="id" visible={false} aria-label="bar">
+        foo
+      </Dialog>
+    )
+    await nextTick()
+    expect(getByText('foo')).toHaveAttribute('aria-label', 'bar')
+  })
+
+  it('does not warn when receiving native attributes', async () => {
+    const warn = console.warn
+    console.warn = jest.fn()
+    renderJsx(
+      <Dialog baseId="id" visible={false} aria-label="bar">
+        foo
+      </Dialog>
+    )
+    expect(console.warn).toHaveBeenCalledTimes(0)
+    console.warn = warn
+  })
+
+  it('can overwrite default tabindex', async () => {
+    const { nextTick } = renderJsx(
+      <Dialog baseId="id" visible={false} tabindex="0">
+        foo
+      </Dialog>
+    )
+    await nextTick()
+    expect(getByText('foo')).toHaveAttribute('tabindex', '0')
   })
 })
