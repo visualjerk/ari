@@ -5,7 +5,7 @@
 
 Accessible unstyled Vue components inspired by Reakit.
 
-Try it on [Codesandbox](https://codesandbox.io/s/old-morning-9jcgn?file=/src/components/AppButton.vue).
+Try it on [Codesandbox](https://codesandbox.io/s/ari-tailwind-playground-x3e47?file=/src/App.vue).
 
 ## Installation
 
