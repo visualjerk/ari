@@ -55,5 +55,8 @@
       "jest"
     ],
     "*.{css,scss,md}": "prettier --write"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.4.4"
   }
 }
