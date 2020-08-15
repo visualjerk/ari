@@ -2,12 +2,19 @@ import { onMounted, Ref } from 'vue'
 
 type UseOnElementCallback = (element: HTMLElement) => void
 
+export function getElementFromRef(elementRef: Ref): HTMLElement {
+  if (!elementRef.value) {
+    return null
+  }
+  return elementRef.value.$el || elementRef.value
+}
+
 export function useOnElement(elementRef: Ref, use: UseOnElementCallback) {
   onMounted(() => {
     if (!elementRef.value) {
       return
     }
-    const element: HTMLElement = elementRef.value.$el || elementRef.value
+    const element: HTMLElement = getElementFromRef(elementRef)
     use(element)
   })
 }

@@ -1,6 +1,6 @@
 import { ComponentObjectPropsOptions, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { defineComponent } from '../utils'
+import { defineComponent, getElementFromRef } from '../utils'
 import { useDialog, dialogProps, DialogProps } from '../Dialog'
 
 export type PopoverProps = DialogProps
@@ -21,7 +21,7 @@ export function usePopover(props: PopoverProps) {
       const disclosureElement = document.querySelector(
         `[aria-controls="${baseId}"]`
       )
-      const popoverElement = ref.value
+      const popoverElement = getElementFromRef(ref)
 
       if (visible) {
         popper = createPopper(disclosureElement, popoverElement, {

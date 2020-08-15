@@ -7,6 +7,7 @@ import {
   h,
 } from 'vue'
 import {
+  getElementFromRef,
   refsToAttributes,
   getTabbableElements,
   getNextTabbable,
@@ -35,7 +36,7 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
     )
     if (
       props.visible &&
-      !elementIsWithin(ref.value, event.target as HTMLElement) &&
+      !elementIsWithin(getElementFromRef(ref), event.target as HTMLElement) &&
       !elementIsWithin(disclosure, event.target as HTMLElement)
     ) {
       hide()
@@ -67,7 +68,7 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
     )
     if (
       props.visible &&
-      !elementIsWithin(ref.value, event.target as HTMLElement) &&
+      !elementIsWithin(getElementFromRef(ref), event.target as HTMLElement) &&
       !elementIsWithin(disclosure, event.target as HTMLElement)
     ) {
       hide()
@@ -100,7 +101,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     () => props.visible,
     (visible) => {
       if (visible) {
-        focusFirstFocusable(ref.value)
+        focusFirstFocusable(getElementFromRef(ref))
       }
     }
   )
@@ -109,7 +110,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
   watch(
     () => props.visible,
     (visible) => {
-      if (!visible && focusIsWithin(ref.value)) {
+      if (!visible && focusIsWithin(getElementFromRef(ref))) {
         const disclosure: HTMLElement = document.querySelector(
           `[aria-controls="${props.baseId}"]`
         )
@@ -130,7 +131,7 @@ function handleTab(
   const disclosure: HTMLElement = document.querySelector(
     `[aria-controls="${props.baseId}"]`
   )
-  const tabbableElements = getTabbableElements(ref.value)
+  const tabbableElements = getTabbableElements(getElementFromRef(ref))
   if (!event.shiftKey && reachedLastTabbable(tabbableElements)) {
     const nextTabbable = getNextTabbable(disclosure)
     if (nextTabbable) {

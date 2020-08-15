@@ -1,29 +1,27 @@
 <template>
-  <div>
-    <DialogDisclosure v-bind="dialog" :as="TestButton">Open Dialog</DialogDisclosure>
-    <Dialog v-bind="dialog">Hello Dialog</Dialog>
+  <div class="p-10">
+    <Popover>
+      <PopoverDisclosure>
+        Open Popover
+      </PopoverDisclosure>
+      <PopoverContent aria-label="Popover">
+        Take a walk in the forest and enjoy sunshine, deers and trees.
+      </PopoverContent>
+    </Popover>
   </div>
 </template>
 
 <script>
-import { markRaw } from 'vue'
-import { Dialog, DialogDisclosure, useDialogState } from 'vue-ari'
-import TestButton from './MyButton.vue'
+import Popover from './Popover.vue'
+import PopoverContent from './PopoverContent.vue'
+import PopoverDisclosure from './PopoverDisclosure.vue'
 
 export default {
   name: 'App',
   components: {
-    Dialog,
-    DialogDisclosure,
-  },
-  setup() {
-    const dialog = useDialogState()
-    return { dialog, TestButton: markRaw(TestButton) }
-  },
-  methods: {
-    handleClick() {
-      alert('clicked')
-    },
+    Popover,
+    PopoverContent,
+    PopoverDisclosure,
   },
 }
 </script>

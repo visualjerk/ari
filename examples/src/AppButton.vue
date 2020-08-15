@@ -6,7 +6,7 @@
     :class="[
       $props.disabled
         ? 'bg-blue-200 cursor-not-allowed'
-        : 'bg-blue-500 hover:bg-blue-700 active:bg-blue-800',
+        : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800',
     ]"
   >
     <slot />
@@ -17,7 +17,7 @@
 import { Clickable, clickableProps } from 'vue-ari'
 
 export default {
-  name: 'TestButton',
+  name: 'AppButton',
   components: {
     Clickable,
   },
