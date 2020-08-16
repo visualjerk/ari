@@ -1,11 +1,6 @@
-# Ari
+# Popover
 
-[![CI](https://github.com/visualjerk/ari/workflows/CI/badge.svg)](https://github.com/visualjerk/ari/actions)
-[![Test Coverage](https://codecov.io/gh/visualjerk/ari/branch/master/graph/badge.svg)](https://codecov.io/gh/visualjerk/ari)
-
-Accessible unstyled Vue components inspired by Reakit.
-
-Try it on [Codesandbox](https://codesandbox.io/s/ari-tailwind-playground-x3e47?file=/src/App.vue).
+`Popover` is a non-modal dialog that is positioned near its disclosure. It is commonly used for displaying additional related content.
 
 ## Installation
 
