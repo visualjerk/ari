@@ -15,7 +15,7 @@ export function useDisclosure(props: DisclosureProps) {
 
   return {
     ...button,
-    'aria-expanded': computed(() => (props.visible ? 'true' : 'false')),
+    'aria-expanded': computed(() => (props.visible.value ? 'true' : 'false')),
     'aria-controls': props.baseId,
     onClick: props.toggle,
   }

@@ -35,7 +35,6 @@ yarn add vue-ari
 import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
 
 export default {
-  name: 'AppButton',
   components: {
     Popover,
     PopoverDisclosure,
@@ -76,7 +75,6 @@ Ari components don't include styling by default. This gives you the ability to a
 import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
 
 export default {
-  name: 'App',
   components: {
     Popover,
     PopoverDisclosure,

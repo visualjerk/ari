@@ -15,7 +15,7 @@
     "build": "rollup -c"
   },
   "peerDependencies": {
-    "vue": "^3.0.0-rc.3"
+    "vue": "^3.0.0-rc.5"
   },
   "devDependencies": {
     "@ant-design-vue/babel-plugin-jsx": "^1.0.0-beta.3",

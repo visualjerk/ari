@@ -1,18 +1,18 @@
 <template>
-  <Popover v-bind="popover" :as="AppCard" class="max-w-xs">
+  <APopover v-bind="popover" :as="AppCard" class="max-w-xs">
     <slot />
-  </Popover>
+  </APopover>
 </template>
 
 <script>
 import { inject, markRaw } from 'vue'
-import { Popover } from 'vue-ari'
+import { Popover as APopover } from 'vue-ari'
 import AppCard from './AppCard.vue'
 
 export default {
   name: 'PopoverContent',
   components: {
-    Popover,
+    APopover,
   },
   setup() {
     const popover = inject('popoverState')

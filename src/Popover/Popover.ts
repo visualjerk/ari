@@ -16,7 +16,7 @@ export function usePopover(props: PopoverProps) {
 
   let popper
   watch(
-    () => props.visible,
+    () => props.visible.value,
     (visible) => {
       const disclosureElement = document.querySelector(
         `[aria-controls="${baseId}"]`

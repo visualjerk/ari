@@ -1,10 +1,11 @@
+import { ref } from 'vue'
 import { DisclosureContent } from '..'
 import { renderJsx, getByText } from '../../../test/utils'
 
 describe('DisclosureContent', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <DisclosureContent baseId="id" visible={false}>
+      <DisclosureContent baseId="id" visible={ref(false)}>
         foo
       </DisclosureContent>
     )
@@ -22,7 +23,7 @@ describe('DisclosureContent', () => {
 
   it('renders visible state correctly', async () => {
     const { nextTick } = renderJsx(
-      <DisclosureContent baseId="id" visible={true}>
+      <DisclosureContent baseId="id" visible={ref(true)}>
         foo
       </DisclosureContent>
     )

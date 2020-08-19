@@ -1,10 +1,11 @@
+import { ref } from 'vue'
 import { PopoverDisclosure } from '..'
 import { renderJsx, getByText } from '../../../test/utils'
 
 describe('PopoverDisclosure', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <PopoverDisclosure baseId="id" visible={false}>
+      <PopoverDisclosure baseId="id" visible={ref(false)}>
         foo
       </PopoverDisclosure>
     )

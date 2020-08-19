@@ -18,8 +18,8 @@ export function useDisclosureContent(props: DisclosureContentProps) {
   return {
     ...Box,
     id: props.baseId,
-    style: computed(() => (props.visible ? null : 'display: none;')),
-    hidden: computed(() => (props.visible ? null : true)),
+    style: computed(() => (props.visible.value ? null : 'display: none;')),
+    hidden: computed(() => (props.visible.value ? null : true)),
   }
 }
 

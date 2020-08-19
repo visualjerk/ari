@@ -1,10 +1,11 @@
+import { ref } from 'vue'
 import { DialogDisclosure } from '..'
 import { renderJsx, getByText } from '../../../test/utils'
 
 describe('DialogDisclosure', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <DialogDisclosure baseId="id" visible={false}>
+      <DialogDisclosure baseId="id" visible={ref(false)}>
         foo
       </DialogDisclosure>
     )

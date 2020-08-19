@@ -1,18 +1,18 @@
 <template>
-  <PopoverDisclosure v-bind="popover" :as="AppButton">
+  <APopoverDisclosure v-bind="popover" :as="AppButton">
     <slot />
-  </PopoverDisclosure>
+  </APopoverDisclosure>
 </template>
 
 <script>
 import { inject, markRaw } from 'vue'
-import { PopoverDisclosure } from 'vue-ari'
+import { PopoverDisclosure as APopoverDisclosure } from 'vue-ari'
 import AppButton from './AppButton.vue'
 
 export default {
   name: 'PopoverDisclosure',
   components: {
-    PopoverDisclosure,
+    APopoverDisclosure,
   },
   setup() {
     const popover = inject('popoverState')

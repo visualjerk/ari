@@ -35,7 +35,7 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
       `[aria-controls="${baseId}"]`
     )
     if (
-      props.visible &&
+      props.visible.value &&
       !elementIsWithin(getElementFromRef(ref), event.target as HTMLElement) &&
       !elementIsWithin(disclosure, event.target as HTMLElement)
     ) {
@@ -44,7 +44,7 @@ function useHideOnClickOutside(props: DialogProps, ref: Ref<HTMLElement>) {
   }
 
   watch(
-    () => props.visible,
+    () => props.visible.value,
     (visible) => {
       if (visible) {
         document.addEventListener('click', hideOnClickOutside)
@@ -67,7 +67,7 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
       `[aria-controls="${baseId}"]`
     )
     if (
-      props.visible &&
+      props.visible.value &&
       !elementIsWithin(getElementFromRef(ref), event.target as HTMLElement) &&
       !elementIsWithin(disclosure, event.target as HTMLElement)
     ) {
@@ -76,7 +76,7 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
   }
 
   watch(
-    () => props.visible,
+    () => props.visible.value,
     (visible) => {
       if (visible) {
         document.addEventListener('focusin', hideOnFocusOutside)
@@ -98,7 +98,7 @@ function focusFirstFocusable(element: HTMLElement) {
 
 function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
   watch(
-    () => props.visible,
+    () => props.visible.value,
     (visible) => {
       if (visible) {
         focusFirstFocusable(getElementFromRef(ref))
@@ -108,7 +108,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
   // Needs to be a 'sync' watcher, so we can check
   // if focus was within the dialog before it is closed
   watch(
-    () => props.visible,
+    () => props.visible.value,
     (visible) => {
       if (!visible && focusIsWithin(getElementFromRef(ref))) {
         const disclosure: HTMLElement = document.querySelector(

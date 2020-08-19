@@ -1,10 +1,11 @@
+import { ref } from 'vue'
 import { Dialog } from '..'
 import { renderJsx, getByText } from '../../../test/utils'
 
 describe('Dialog', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <Dialog baseId="id" visible={false}>
+      <Dialog baseId="id" visible={ref(false)}>
         foo
       </Dialog>
     )
@@ -26,7 +27,7 @@ describe('Dialog', () => {
     const { nextTick } = renderJsx(
       <div>
         container
-        <Dialog baseId="id" visible={false}>
+        <Dialog baseId="id" visible={ref(false)}>
           foo
         </Dialog>
       </div>
@@ -37,7 +38,7 @@ describe('Dialog', () => {
 
   it('renders native attributes', async () => {
     const { nextTick } = renderJsx(
-      <Dialog baseId="id" visible={false} aria-label="bar">
+      <Dialog baseId="id" visible={ref(false)} aria-label="bar">
         foo
       </Dialog>
     )
@@ -49,7 +50,7 @@ describe('Dialog', () => {
     const warn = console.warn
     console.warn = jest.fn()
     renderJsx(
-      <Dialog baseId="id" visible={false} aria-label="bar">
+      <Dialog baseId="id" visible={ref(false)} aria-label="bar">
         foo
       </Dialog>
     )
@@ -59,7 +60,7 @@ describe('Dialog', () => {
 
   it('can overwrite default tabindex', async () => {
     const { nextTick } = renderJsx(
-      <Dialog baseId="id" visible={false} tabindex="0">
+      <Dialog baseId="id" visible={ref(false)} tabindex="0">
         foo
       </Dialog>
     )

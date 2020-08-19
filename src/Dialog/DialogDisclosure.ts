@@ -12,7 +12,7 @@ export function useDialogDisclosure(props: DialogDisclosureProps) {
   const Disclosure = useDisclosure(props)
 
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === 'Tab' && !event.shiftKey && props.visible) {
+    if (event.key === 'Tab' && !event.shiftKey && props.visible.value) {
       const dialog = document.getElementById(props.baseId)
       const tabbableElements = getTabbableElements(dialog)
       if (tabbableElements.length) {
