@@ -42,9 +42,14 @@ export function getNextTabbable(element: HTMLElement): HTMLElement {
   return tabbableElements[indexOfElement + 1]
 }
 
+export function isFocused(element: HTMLElement): boolean {
+  return element === document.activeElement
+}
+
 export function focusIsWithin(element: HTMLElement) {
   return elementIsWithin(element, document.activeElement as HTMLElement)
 }
+
 export function elementIsWithin(container: HTMLElement, element: HTMLElement) {
   if (!container || !element) {
     return false

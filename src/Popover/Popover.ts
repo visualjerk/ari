@@ -10,9 +10,9 @@ export const popoverProps: ComponentObjectPropsOptions<PopoverProps> = {
 }
 
 export function usePopover(props: PopoverProps) {
-  const popover = useDialog(props)
+  const dialog = useDialog(props)
   const { baseId } = props
-  const { ref } = popover
+  const { ref } = dialog
 
   let popper
   watch(
@@ -41,7 +41,7 @@ export function usePopover(props: PopoverProps) {
   )
 
   return {
-    ...popover,
+    ...dialog,
   }
 }
 
