@@ -1,4 +1,4 @@
-import { ModalDisclosure, Modal, useModalState } from '..'
+import { ModalDisclosure, Modal, ModalBackdrop, useModalState } from '..'
 import { render, getByText, click, tab } from '../../../test/utils'
 
 function createTestSetup({
@@ -18,6 +18,7 @@ function createTestSetup({
     },
     components: {
       Modal,
+      ModalBackdrop,
       ModalDisclosure,
     },
     template,
@@ -42,6 +43,36 @@ describe('Modal Composition', () => {
     click(disclosure)
     await nextTick()
     expect(content).toBeVisible()
+  })
+
+  it('backdrop is hidden by default', () => {
+    createTestSetup({
+      template: `
+    <div>
+      <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
+      <ModalBackdrop v-bind="modal">baz</ModalBackdrop>
+      <Modal v-bind="modal">bar</Modal>
+    </div>
+      `,
+    })
+    expect(getByText('baz')).not.toBeVisible()
+  })
+
+  it('disclosure opens backdrop', async () => {
+    const { disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
+      <ModalBackdrop v-bind="modal">baz</ModalBackdrop>
+      <Modal v-bind="modal">bar</Modal>
+    </div>
+      `,
+    })
+    const backdrop = getByText('baz')
+    expect(backdrop).not.toBeVisible()
+    click(disclosure)
+    await nextTick()
+    expect(backdrop).toBeVisible()
   })
 
   it('focus is trapped inside modal', async () => {
