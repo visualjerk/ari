@@ -22,4 +22,17 @@ describe('Popover', () => {
       </div>
     `)
   })
+
+  it('renders in portal', async () => {
+    const { nextTick } = renderJsx(
+      <div>
+        container
+        <Popover baseId="id" visible={ref(false)}>
+          foo
+        </Popover>
+      </div>
+    )
+    await nextTick()
+    expect(getByText('foo').parentElement).not.toBe(getByText('container'))
+  })
 })

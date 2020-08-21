@@ -1,4 +1,5 @@
 import { h, unref, defineComponent as vueDefineComponent } from 'vue'
+import { Portal } from '../Portal'
 
 function addRefToAttributes(attributes, ref) {
   const [key, value] = ref
@@ -16,14 +17,26 @@ export function refsToAttributes(refs) {
   return Object.entries(refs).reduce(addRefToAttributes, {})
 }
 
-export function defineComponent(componentProps, useAttributeRefs) {
+export function defineComponent(
+  componentProps,
+  useAttributeRefs,
+  withPortal = false
+) {
   return vueDefineComponent({
     props: componentProps,
-    setup(props, { slots }) {
+    inheritAttrs: false,
+    setup(props, { slots, attrs }) {
       const attributeRefs = useAttributeRefs(props)
       return () => {
         const attributes = refsToAttributes(attributeRefs)
-        return h(props.as, attributes, slots)
+        if (withPortal) {
+          return h(
+            Portal,
+            null,
+            h(props.as, { ...attributes, ...attrs }, slots)
+          )
+        }
+        return h(props.as, { ...attributes, ...attrs }, slots)
       }
     },
   })

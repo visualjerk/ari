@@ -81,4 +81,4 @@ export function useModal(props: ModalProps) {
   }
 }
 
-export const Modal = defineComponent(modalProps, useModal)
+export const Modal = defineComponent(modalProps, useModal, true)

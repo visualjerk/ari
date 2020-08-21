@@ -1,25 +1,17 @@
-import {
-  ComponentObjectPropsOptions,
-  Ref,
-  defineComponent,
-  watch,
-  onBeforeUnmount,
-  h,
-} from 'vue'
+import { ComponentObjectPropsOptions, Ref, watch, onBeforeUnmount } from 'vue'
 import {
   getElementFromRef,
-  refsToAttributes,
   getTabbableElements,
   getNextTabbable,
   elementIsWithin,
   focusIsWithin,
+  defineComponent,
 } from '../utils'
 import {
   useDisclosureContent,
   disclosureContentProps,
   DisclosureContentProps,
 } from '../Disclosure'
-import { Portal } from '../Portal'
 
 export type DialogProps = DisclosureContentProps
 
@@ -181,14 +173,4 @@ export function useDialog(props: DialogProps) {
   }
 }
 
-export const Dialog = defineComponent({
-  inheritAttrs: false,
-  props: dialogProps,
-  setup(props: DialogProps, { slots, attrs }) {
-    const attributeRefs = useDialog(props)
-    return () => {
-      const attributes = refsToAttributes(attributeRefs)
-      return h(Portal, null, h(props.as, { ...attributes, ...attrs }, slots))
-    }
-  },
-})
+export const Dialog = defineComponent(dialogProps, useDialog, true)
