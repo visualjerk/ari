@@ -1,11 +1,6 @@
-# Ari
+# Modal
 
-[![CI](https://github.com/visualjerk/ari/workflows/CI/badge.svg)](https://github.com/visualjerk/ari/actions)
-[![Test Coverage](https://codecov.io/gh/visualjerk/ari/branch/master/graph/badge.svg)](https://codecov.io/gh/visualjerk/ari)
-
-Accessible unstyled Vue components inspired by Reakit.
-
-Try it on [Codesandbox](https://codesandbox.io/s/ari-tailwind-playground-x3e47?file=/src/App.vue).
+Accessible `Modal` component that follows the [WAI-ARIA Dialog (Modal) Pattern](https://www.w3.org/TR/wai-aria-practices/#dialog_modal). It is rendered within a Portal.
 
 ## Installation
 
@@ -23,26 +18,29 @@ yarn add vue-ari
 
 ```vue
 <template>
-  <PopoverDisclosure v-bind="popover">
-    Open Popover
-  </PopoverDisclosure>
-  <Popover v-bind="popover">
-    Popover Content
-  </Popover>
+  <ModalDisclosure v-bind="modal">
+    Open Modal
+  </ModalDisclosure>
+  <ModalBackdrop v-bind="modal">
+    <Modal v-bind="modal">
+      Modal Content
+    </Modal>
+  </ModalBackdrop>
 </template>
 
 <script>
-import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
+import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
 
 export default {
   components: {
-    Popover,
-    PopoverDisclosure,
+    Modal,
+    ModalBackdrop,
+    ModalDisclosure,
   },
   setup() {
-    const popover = usePopoverState()
+    const modal = useModalState()
     return {
-      popover,
+      modal,
     }
   },
 }
@@ -57,32 +55,37 @@ Ari components don't include styling by default. This gives you the ability to a
 
 ```vue
 <template>
-  <PopoverDisclosure
-    v-bind="popover"
+  <ModalDisclosure
+    v-bind="modal"
     class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
   >
-    Open Popover
-  </PopoverDisclosure>
-  <Popover
-    v-bind="popover"
-    class="rounded shadow-lg border border-solid border-gray-300 py-3 px-5 bg-white"
+    Open Modal
+  </ModalDisclosure>
+  <ModalBackdrop
+    v-bind="modal"
+    class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-black"
   >
-    Popover Content
-  </Popover>
+    <Modal
+      v-bind="modal"
+      class="max-w-xs rounded shadow-lg border border-solid border-gray-300 py-3 px-5 bg-white"
+    >
+      Modal Content
+    </Modal>
+  </ModalBackdrop>
 </template>
 
 <script>
-import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
+import { Modal, ModalDisclosure, useModalState } from 'vue-ari'
 
 export default {
   components: {
-    Popover,
-    PopoverDisclosure,
+    Modal,
+    ModalDisclosure,
   },
   setup() {
-    const popover = usePopoverState()
+    const modal = useModalState()
     return {
-      popover,
+      modal,
     }
   },
 }
@@ -91,26 +94,91 @@ export default {
 
 ## Reusable Components
 
-It would get pretty verbose to add the same styling classes wherever you like to use a `Popover`. So the recommended way is wrapping Ari components inside your own base components and use them inside your app.
+It would get pretty verbose to add the same styling classes wherever you like to use a `Modal`. So the recommended way is wrapping Ari components inside your own base components and use them inside your app.
+
+Base component for disclosure:
 
 ```vue
 <template>
-  <PopoverDisclosure
+  <ModalDisclosure
     v-bind="$props"
     class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
   >
     <slot />
-  </PopoverDisclosure>
+  </ModalDisclosure>
 </template>
 
 <script>
-import { PopoverDisclosure, popoverDisclosureProps } from 'vue-ari'
+import { ModalDisclosure, modalDisclosureProps } from 'vue-ari'
 
 export default {
-  name: 'AppPopoverDisclosure',
-  props: popoverDisclosureProps,
+  name: 'AppModalDisclosure',
+  props: modalDisclosureProps,
   components: {
-    PopoverDisclosure,
+    ModalDisclosure,
+  },
+}
+</script>
+```
+
+Base component for modal:
+
+```vue
+<template>
+  <ModalBackdrop
+    v-bind="$props"
+    class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-black"
+  >
+    <Modal
+      v-bind="{ ...$props, ...$attrs }"
+      class="max-w-xs rounded shadow-lg border border-solid border-gray-300 py-3 px-5 bg-white"
+    >
+      <slot />
+    </Modal>
+  </ModalBackdrop>
+</template>
+
+<script>
+import { Modal, ModalBackdrop, modalProps } from 'vue-ari'
+
+export default {
+  name: 'AppModal',
+  props: modalProps,
+  inheritAttrs: false,
+  components: {
+    Modal,
+    ModalBackdrop,
+  },
+}
+</script>
+```
+
+Inside your app:
+
+```vue
+<template>
+  <AppModalDisclosure v-bind="modal">
+    Open Modal
+  </AppModalDisclosure>
+  <AppModal v-bind="modal">
+    Modal Content
+  </AppModal>
+</template>
+
+<script>
+import { useModalState } from 'vue-ari'
+import { AppModal, AppModalDisclosure } from './components'
+
+export default {
+  components: {
+    AppModal,
+    AppModalDisclosure,
+  },
+  setup() {
+    const modal = useModalState()
+    return {
+      modal,
+    }
   },
 }
 </script>
