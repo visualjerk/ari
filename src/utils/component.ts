@@ -17,26 +17,19 @@ export function refsToAttributes(refs) {
   return Object.entries(refs).reduce(addRefToAttributes, {})
 }
 
-export function defineComponent(
-  componentProps,
-  useAttributeRefs,
-  withPortal = false
-) {
+export function defineComponent(componentProps, useAttributeRefs) {
   return vueDefineComponent({
     props: componentProps,
     inheritAttrs: false,
     setup(props, { slots, attrs }) {
       const attributeRefs = useAttributeRefs(props)
       return () => {
-        const attributes = refsToAttributes(attributeRefs)
+        const { withPortal, ...attributes } = refsToAttributes(attributeRefs)
+        const renderedComp = h(props.as, { ...attributes, ...attrs }, slots)
         if (withPortal) {
-          return h(
-            Portal,
-            null,
-            h(props.as, { ...attributes, ...attrs }, slots)
-          )
+          return h(Portal, null, renderedComp)
         }
-        return h(props.as, { ...attributes, ...attrs }, slots)
+        return renderedComp
       }
     },
   })

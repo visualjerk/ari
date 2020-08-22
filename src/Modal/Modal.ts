@@ -1,4 +1,10 @@
-import { ComponentObjectPropsOptions, Ref, watch, onBeforeUnmount } from 'vue'
+import {
+  ComponentObjectPropsOptions,
+  Ref,
+  watch,
+  onBeforeUnmount,
+  inject,
+} from 'vue'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import {
   defineComponent,
@@ -74,11 +80,13 @@ export function useModal(props: ModalProps) {
       dialog.onKeydown(event)
     }
   }
+  const hasBackdrop = inject('modalBackdrop', false)
 
   return {
     ...dialog,
     onKeydown,
+    withPortal: !hasBackdrop,
   }
 }
 
-export const Modal = defineComponent(modalProps, useModal, true)
+export const Modal = defineComponent(modalProps, useModal)

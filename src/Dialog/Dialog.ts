@@ -166,11 +166,12 @@ export function useDialog(props: DialogProps) {
   }
 
   return {
+    ...disclosureContent,
     role: 'dialog',
     tabindex: -1,
     onKeydown: handleKeydown,
-    ...disclosureContent,
+    withPortal: true,
   }
 }
 
-export const Dialog = defineComponent(dialogProps, useDialog, true)
+export const Dialog = defineComponent(dialogProps, useDialog)

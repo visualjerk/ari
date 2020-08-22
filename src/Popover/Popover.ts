@@ -45,4 +45,4 @@ export function usePopover(props: PopoverProps) {
   }
 }
 
-export const Popover = defineComponent(popoverProps, usePopover, true)
+export const Popover = defineComponent(popoverProps, usePopover)

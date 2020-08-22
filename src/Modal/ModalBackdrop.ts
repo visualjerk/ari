@@ -1,4 +1,4 @@
-import { ComponentObjectPropsOptions, computed } from 'vue'
+import { ComponentObjectPropsOptions, computed, provide } from 'vue'
 import { defineComponent } from '../utils'
 import { modalStateReturn, ModalStateReturn } from './ModalState'
 import { useBox, boxProps, BoxProps } from '../Box'
@@ -12,14 +12,15 @@ export const modalBackdropProps: ComponentObjectPropsOptions<ModalBackdropProps>
 
 export function useModalBackdrop(props: ModalBackdropProps) {
   const box = useBox()
+  provide('modalBackdrop', true)
   return {
     ...box,
     style: computed(() => (props.visible.value ? null : 'display: none;')),
+    withPortal: true,
   }
 }
 
 export const ModalBackdrop = defineComponent(
   modalBackdropProps,
-  useModalBackdrop,
-  true
+  useModalBackdrop
 )

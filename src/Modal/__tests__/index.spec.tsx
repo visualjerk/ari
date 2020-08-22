@@ -75,6 +75,24 @@ describe('Modal Composition', () => {
     expect(backdrop).toBeVisible()
   })
 
+  it('modal renders inside backdrop instead of portal', async () => {
+    const { disclosure, content, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
+      <ModalBackdrop v-bind="modal">
+        baz
+        <Modal v-bind="modal">bar</Modal>
+      </ModalBackdrop>
+    </div>
+      `,
+    })
+    const backdrop = getByText('baz')
+    click(disclosure)
+    await nextTick()
+    expect(content.parentElement).toBe(backdrop)
+  })
+
   it('focus is trapped inside modal', async () => {
     const { disclosure, content, nextTick } = createTestSetup({
       template: `
