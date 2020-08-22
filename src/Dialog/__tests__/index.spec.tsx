@@ -335,4 +335,36 @@ describe('Dialog Composition', () => {
     await nextTick()
     expect(content).not.toBeVisible()
   })
+
+  it('tab without tabbable element after disclosure hides dialog', async () => {
+    const { content, disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <Dialog v-bind="dialog">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(content).not.toBeVisible()
+  })
+
+  it.only('tab without tabbable element after disclosure and tabindex 0 on dialog hides dialog', async () => {
+    const { content, disclosure, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <DialogDisclosure v-bind="dialog">foo</DialogDisclosure>
+      <Dialog v-bind="dialog" tabindex="0">bar</Dialog>
+    </div>
+      `,
+    })
+    click(disclosure)
+    await nextTick()
+    tab()
+    await nextTick()
+    expect(content).not.toBeVisible()
+  })
 })

@@ -123,12 +123,15 @@ function handleTab(
   const disclosure: HTMLElement = document.querySelector(
     `[aria-controls="${props.baseId}"]`
   )
-  const tabbableElements = getTabbableElements(getElementFromRef(ref))
+  const dialog = getElementFromRef(ref)
+  const tabbableElements = getTabbableElements(dialog)
   if (!event.shiftKey && reachedLastTabbable(tabbableElements)) {
     const nextTabbable = getNextTabbable(disclosure)
-    if (nextTabbable) {
+    if (nextTabbable && nextTabbable !== dialog) {
       nextTabbable.focus()
       event.preventDefault()
+    } else {
+      props.hide()
     }
   } else if (event.shiftKey && reachedFirstTabbable(tabbableElements)) {
     disclosure.focus()

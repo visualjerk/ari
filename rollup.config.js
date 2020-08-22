@@ -24,9 +24,6 @@ export default {
     nodeResolve(),
     commonjs({
       include: /node_modules/,
-      namedExports: {
-        'body-scroll-lock': ['enableBodyScroll', 'disableBodyScroll'],
-      },
     }),
   ],
   external: ['vue'],
