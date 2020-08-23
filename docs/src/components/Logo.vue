@@ -1,9 +1,20 @@
 <template>
-  <svg :width="getWidth" :height="getHeight" x="0.0" y="0.0" viewBox="0 0 48 48">
+  <svg
+    :width="getWidth"
+    :height="getHeight"
+    viewBox="0 0 120 120"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M104 104V60C104 35.6995 84.3005 16 60 16C35.6995 16 16 35.6995 16 60C16 84.3005 35.6995 104 60 104H104ZM120 110C120 115.523 115.523 120 110 120H60C26.8629 120 0 93.1371 0 60C0 26.8629 26.8629 0 60 0C93.1371 0 120 26.8629 120 60V110Z"
       fill="currentColor"
-      fill-rule="nonzero"
-      d="M24 .21L.21 24 24 47.79 47.79 24 24 .21zM5.82 24L24 5.82l7.69 7.69-2.8 2.8L24 11.43 11.43 24l4.88 4.89-2.8 2.8L5.82 24zm25.15 0L24 30.97 17.03 24 24 17.03 30.97 24zM16.31 34.49l2.8-2.8L24 36.57 36.57 24l-4.89-4.89 2.8-2.8 7.7 7.69L24 42.18l-7.69-7.69z"
+    />
+    <path
+      d="M66.0622 83.5C63.3679 88.1667 56.6321 88.1667 53.9378 83.5L36.6173 53.5C33.923 48.8333 37.2909 43 42.6795 43L77.3205 43C82.7091 43 86.077 48.8333 83.3827 53.5L66.0622 83.5Z"
+      fill="#F23E74"
     />
   </svg>
 </template>
@@ -13,19 +24,24 @@ export default {
   props: {
     width: {
       type: Number,
-      default: 40
-    }
+      default: 40,
+    },
   },
 
   computed: {
     getWidth() {
-      return this.width;
+      return this.width
     },
 
     getHeight() {
-      return Math.ceil((this.getWidth / 48) * 48);
-    }
-  }
-};
+      return Math.ceil((this.getWidth / 120) * 120)
+    },
+  },
+}
 </script>
 
+<style scoped>
+svg {
+  @apply text-ui-primary;
+}
+</style>

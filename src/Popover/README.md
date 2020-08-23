@@ -1,3 +1,9 @@
+---
+description: ''
+sidebar: 'docs'
+prev: '/docs/modal/'
+---
+
 # Popover
 
 `Popover` is a non-modal dialog that is positioned near its disclosure. It is commonly used for displaying additional related content.
@@ -16,7 +22,7 @@ yarn add vue-ari
 
 ## Usage
 
-```vue
+```html
 <template>
   <PopoverDisclosure v-bind="popover">
     Open Popover
@@ -27,20 +33,20 @@ yarn add vue-ari
 </template>
 
 <script>
-import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
+  import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
 
-export default {
-  components: {
-    Popover,
-    PopoverDisclosure,
-  },
-  setup() {
-    const popover = usePopoverState()
-    return {
-      popover,
-    }
-  },
-}
+  export default {
+    components: {
+      Popover,
+      PopoverDisclosure,
+    },
+    setup() {
+      const popover = usePopoverState()
+      return {
+        popover,
+      }
+    },
+  }
 </script>
 ```
 
@@ -50,7 +56,7 @@ Ari components don't include styling by default. This gives you the ability to a
 
 ### Example Using Tailwind
 
-```vue
+```html
 <template>
   <PopoverDisclosure
     v-bind="popover"
@@ -67,20 +73,20 @@ Ari components don't include styling by default. This gives you the ability to a
 </template>
 
 <script>
-import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
+  import { Popover, PopoverDisclosure, usePopoverState } from 'vue-ari'
 
-export default {
-  components: {
-    Popover,
-    PopoverDisclosure,
-  },
-  setup() {
-    const popover = usePopoverState()
-    return {
-      popover,
-    }
-  },
-}
+  export default {
+    components: {
+      Popover,
+      PopoverDisclosure,
+    },
+    setup() {
+      const popover = usePopoverState()
+      return {
+        popover,
+      }
+    },
+  }
 </script>
 ```
 
@@ -88,7 +94,7 @@ export default {
 
 It would get pretty verbose to add the same styling classes wherever you like to use a `Popover`. So the recommended way is wrapping Ari components inside your own base components and use them inside your app.
 
-```vue
+```html
 <template>
   <PopoverDisclosure
     v-bind="$props"
@@ -99,14 +105,14 @@ It would get pretty verbose to add the same styling classes wherever you like to
 </template>
 
 <script>
-import { PopoverDisclosure, popoverDisclosureProps } from 'vue-ari'
+  import { PopoverDisclosure, popoverDisclosureProps } from 'vue-ari'
 
-export default {
-  name: 'AppPopoverDisclosure',
-  props: popoverDisclosureProps,
-  components: {
-    PopoverDisclosure,
-  },
-}
+  export default {
+    name: 'AppPopoverDisclosure',
+    props: popoverDisclosureProps,
+    components: {
+      PopoverDisclosure,
+    },
+  }
 </script>
 ```

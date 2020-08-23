@@ -1,3 +1,10 @@
+---
+description: ''
+sidebar: 'docs'
+prev: '/docs/'
+next: '/docs/popover/'
+---
+
 # Modal
 
 Accessible `Modal` component that follows the [WAI-ARIA Dialog (Modal) Pattern](https://www.w3.org/TR/wai-aria-practices/#dialog_modal). It is rendered within a Portal.
@@ -16,7 +23,7 @@ yarn add vue-ari
 
 ## Usage
 
-```vue
+```html
 <template>
   <ModalDisclosure v-bind="modal">
     Open Modal
@@ -29,21 +36,21 @@ yarn add vue-ari
 </template>
 
 <script>
-import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
+  import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
 
-export default {
-  components: {
-    Modal,
-    ModalBackdrop,
-    ModalDisclosure,
-  },
-  setup() {
-    const modal = useModalState()
-    return {
-      modal,
-    }
-  },
-}
+  export default {
+    components: {
+      Modal,
+      ModalBackdrop,
+      ModalDisclosure,
+    },
+    setup() {
+      const modal = useModalState()
+      return {
+        modal,
+      }
+    },
+  }
 </script>
 ```
 
@@ -53,7 +60,7 @@ Ari components don't include styling by default. This gives you the ability to a
 
 ### Example Using Tailwind
 
-```vue
+```html
 <template>
   <ModalDisclosure
     v-bind="modal"
@@ -75,20 +82,20 @@ Ari components don't include styling by default. This gives you the ability to a
 </template>
 
 <script>
-import { Modal, ModalDisclosure, useModalState } from 'vue-ari'
+  import { Modal, ModalDisclosure, useModalState } from 'vue-ari'
 
-export default {
-  components: {
-    Modal,
-    ModalDisclosure,
-  },
-  setup() {
-    const modal = useModalState()
-    return {
-      modal,
-    }
-  },
-}
+  export default {
+    components: {
+      Modal,
+      ModalDisclosure,
+    },
+    setup() {
+      const modal = useModalState()
+      return {
+        modal,
+      }
+    },
+  }
 </script>
 ```
 
@@ -98,7 +105,7 @@ It would get pretty verbose to add the same styling classes wherever you like to
 
 Base component for disclosure:
 
-```vue
+```html
 <template>
   <ModalDisclosure
     v-bind="$props"
@@ -109,21 +116,21 @@ Base component for disclosure:
 </template>
 
 <script>
-import { ModalDisclosure, modalDisclosureProps } from 'vue-ari'
+  import { ModalDisclosure, modalDisclosureProps } from 'vue-ari'
 
-export default {
-  name: 'AppModalDisclosure',
-  props: modalDisclosureProps,
-  components: {
-    ModalDisclosure,
-  },
-}
+  export default {
+    name: 'AppModalDisclosure',
+    props: modalDisclosureProps,
+    components: {
+      ModalDisclosure,
+    },
+  }
 </script>
 ```
 
 Base component for modal:
 
-```vue
+```html
 <template>
   <ModalBackdrop
     v-bind="$props"
@@ -139,23 +146,23 @@ Base component for modal:
 </template>
 
 <script>
-import { Modal, ModalBackdrop, modalProps } from 'vue-ari'
+  import { Modal, ModalBackdrop, modalProps } from 'vue-ari'
 
-export default {
-  name: 'AppModal',
-  props: modalProps,
-  inheritAttrs: false,
-  components: {
-    Modal,
-    ModalBackdrop,
-  },
-}
+  export default {
+    name: 'AppModal',
+    props: modalProps,
+    inheritAttrs: false,
+    components: {
+      Modal,
+      ModalBackdrop,
+    },
+  }
 </script>
 ```
 
 Inside your app:
 
-```vue
+```html
 <template>
   <AppModalDisclosure v-bind="modal">
     Open Modal
@@ -166,21 +173,21 @@ Inside your app:
 </template>
 
 <script>
-import { useModalState } from 'vue-ari'
-import { AppModal, AppModalDisclosure } from './components'
+  import { useModalState } from 'vue-ari'
+  import { AppModal, AppModalDisclosure } from './components'
 
-export default {
-  components: {
-    AppModal,
-    AppModalDisclosure,
-  },
-  setup() {
-    const modal = useModalState()
-    return {
-      modal,
-    }
-  },
-}
+  export default {
+    components: {
+      AppModal,
+      AppModalDisclosure,
+    },
+    setup() {
+      const modal = useModalState()
+      return {
+        modal,
+      }
+    },
+  }
 </script>
 ```
 
@@ -190,27 +197,27 @@ If you would rather not create a modal state each time, just create a provider c
 
 Provider component:
 
-```vue
+```html
 <template>
   <slot />
 </template>
 
 <script>
-import { provide } from 'vue'
-import { useModalState } from 'vue-ari'
+  import { provide } from 'vue'
+  import { useModalState } from 'vue-ari'
 
-export default {
-  name: 'AppModalProvider',
-  setup() {
-    provide('modalState', useModalState())
-  },
-}
+  export default {
+    name: 'AppModalProvider',
+    setup() {
+      provide('modalState', useModalState())
+    },
+  }
 </script>
 ```
 
 Base component for disclosure:
 
-```vue
+```html
 <template>
   <ModalDisclosure
     v-bind="modal"
@@ -221,27 +228,27 @@ Base component for disclosure:
 </template>
 
 <script>
-import { inject } from 'vue'
-import { ModalDisclosure } from 'vue-ari'
+  import { inject } from 'vue'
+  import { ModalDisclosure } from 'vue-ari'
 
-export default {
-  name: 'AppModalDisclosure',
-  components: {
-    ModalDisclosure,
-  },
-  setup() {
-    const modal = inject('modalState')
-    return {
-      modal,
-    }
-  },
-}
+  export default {
+    name: 'AppModalDisclosure',
+    components: {
+      ModalDisclosure,
+    },
+    setup() {
+      const modal = inject('modalState')
+      return {
+        modal,
+      }
+    },
+  }
 </script>
 ```
 
 Base component for modal:
 
-```vue
+```html
 <template>
   <ModalBackdrop
     v-bind="modal"
@@ -257,29 +264,29 @@ Base component for modal:
 </template>
 
 <script>
-import { inject } from 'vue'
-import { Modal, ModalBackdrop } from 'vue-ari'
+  import { inject } from 'vue'
+  import { Modal, ModalBackdrop } from 'vue-ari'
 
-export default {
-  name: 'AppModalDisclosure',
-  components: {
-    Modal,
-    ModalBackdrop,
-  },
-  inheritAttrs: false,
-  setup() {
-    const modal = inject('modalState')
-    return {
-      modal,
-    }
-  },
-}
+  export default {
+    name: 'AppModalDisclosure',
+    components: {
+      Modal,
+      ModalBackdrop,
+    },
+    inheritAttrs: false,
+    setup() {
+      const modal = inject('modalState')
+      return {
+        modal,
+      }
+    },
+  }
 </script>
 ```
 
 Inside your app:
 
-```vue
+```html
 <template>
   <AppModalProvider>
     <AppModalDisclosure>
@@ -292,14 +299,14 @@ Inside your app:
 </template>
 
 <script>
-import { AppModalProvider, AppModal, AppModalDisclosure } from './components'
+  import { AppModalProvider, AppModal, AppModalDisclosure } from './components'
 
-export default {
-  components: {
-    AppModalProvider,
-    AppModal,
-    AppModalDisclosure,
-  },
-}
+  export default {
+    components: {
+      AppModalProvider,
+      AppModal,
+      AppModalDisclosure,
+    },
+  }
 </script>
 ```

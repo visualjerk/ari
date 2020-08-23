@@ -5,16 +5,17 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: 'Docc',
+  siteName: 'Ari',
   icon: {
     favicon: './src/assets/favicon.png',
     touchicon: './src/assets/favicon.png',
   },
-  siteUrl: process.env.SITE_URL ? process.env.SITE_URL : 'https://example.com',
+  siteUrl: 'https://visualjerk.github.io',
+  pathPrefix: '/ari',
   settings: {
     web: process.env.URL_WEB || false,
     twitter: process.env.URL_TWITTER || false,
-    github: process.env.URL_GITHUB || false,
+    github: process.env.URL_GITHUB || 'https://github.com/visualjerk/ari',
     nav: {
       links: [{ path: '/docs/', title: 'Docs' }],
     },
@@ -24,16 +25,11 @@ module.exports = {
         sections: [
           {
             title: 'Getting Started',
-            items: [
-              '/docs/',
-              '/docs/installation/',
-              '/docs/writing-content/',
-              '/docs/deploying/',
-            ],
+            items: ['/docs/'],
           },
           {
-            title: 'Configuration',
-            items: ['/docs/settings/', '/docs/sidebar/'],
+            title: 'Components',
+            items: ['/docs/modal/', '/docs/popover/'],
           },
         ],
       },
@@ -53,7 +49,21 @@ module.exports = {
         },
       },
     },
-
+    {
+      use: '@gridsome/source-filesystem',
+      options: {
+        baseDir: '../src',
+        path: '**/*.md',
+        pathPrefix: '/docs',
+        index: ['README'],
+        typeName: 'MarkdownPage',
+        remark: {
+          externalLinksTarget: '_blank',
+          externalLinksRel: ['noopener', 'noreferrer'],
+          plugins: ['@gridsome/remark-prismjs'],
+        },
+      },
+    },
     {
       use: 'gridsome-plugin-tailwindcss',
       options: {
@@ -64,14 +74,6 @@ module.exports = {
         },
       },
     },
-
-    {
-      use: '@gridsome/plugin-google-analytics',
-      options: {
-        id: process.env.GA_ID ? process.env.GA_ID : 'XX-999999999-9',
-      },
-    },
-
     {
       use: '@gridsome/plugin-sitemap',
       options: {},
