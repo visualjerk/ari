@@ -127,6 +127,7 @@ export default {
   --color-ui-sidebar: theme('colors.gray.200');
   --color-ui-border: theme('colors.gray.300');
   --color-ui-primary: theme('colors.blue.500');
+  --color-ui-highlight: theme('colors.pink.500');
 }
 
 html[lights-out] {

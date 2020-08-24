@@ -4,21 +4,15 @@
       <div class="flex flex-col items-center">
         <div class="flex flex-col items-center mb-2 text-ui-primary">
           <Logo :width="80" />
-          <h2 class="text-3xl text-6xl font-black tracking-tighter border-none">
-            Ari
-          </h2>
+          <h2 class="text-3xl text-6xl font-black tracking-tight">ari</h2>
         </div>
-        <h1 class="text-4xl text-center lg:text-5xl">
-          Accessible unstyled Vue components
-        </h1>
-        <p class="text-xl font-medium text-center">
-          Creating a11y compliant Vue components has never been easier.
-        </p>
+        <h1 class="text-4xl text-center lg:text-5xl">Accessible unstyled Vue components</h1>
+        <p
+          class="text-xl font-medium text-center"
+        >Creating a11y compliant Vue components has never been easier.</p>
 
         <div class="py-4">
-          <code class="block px-4 py-1 select-all bg-ui-border text-ui-typo"
-            >yarn add vue-ari</code
-          >
+          <code class="block px-4 py-1 select-all bg-ui-border text-ui-typo">yarn add vue-ari</code>
         </div>
 
         <div class="flex justify-center mt-8">

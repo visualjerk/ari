@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint . --ext js,ts,tsx,vue --fix",
     "test": "jest",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "docs:deploy": "cd docs && yarn deploy"
   },
   "peerDependencies": {
     "vue": "^3.0.0-rc.5"

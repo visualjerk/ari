@@ -94,5 +94,5 @@ export default {
 </script>
 
 <style>
-@import 'prism-themes/themes/prism-material-dark.css';
+@import 'prism-themes/themes/prism-a11y-dark.css';
 </style>
