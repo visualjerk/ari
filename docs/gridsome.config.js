@@ -29,7 +29,7 @@ module.exports = {
           },
           {
             title: 'Components',
-            items: ['/docs/modal/', '/docs/popover/'],
+            items: ['/docs/button/', '/docs/modal/', '/docs/popover/'],
           },
         ],
       },

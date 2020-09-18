@@ -1,7 +1,7 @@
 ---
 description: ''
 sidebar: 'docs'
-prev: '/docs/'
+prev: '/docs/button/'
 next: '/docs/popover/'
 ---
 

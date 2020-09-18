@@ -1,6 +1,13 @@
+---
+description: ''
+sidebar: 'docs'
+prev: '/docs/'
+next: '/docs/modal/'
+---
+
 # Button
 
-Accessible `Button` component that enables users to trigger an action or event, such as submitting a Form, opening a Dialog, canceling an action, or performing a delete operation. It follows the [WAI-ARIA Button Pattern](https://www.w3.org/TR/wai-aria-practices/#button).
+Accessible `Button` component that enables users to trigger an action or event, such as submitting a form, opening a dialog, canceling an action, or performing a delete operation. It follows the [WAI-ARIA Button Pattern](https://www.w3.org/TR/wai-aria-practices/#button).
 
 ## Installation
 
@@ -16,63 +23,56 @@ yarn add vue-ari
 
 ## Usage
 
-Ari components are meant to be used as base components for you own components.
-
-They bring the functionality, you bring the styles.
-
 ```html
 <template>
-  <button v-bind="$props" class="app-button">
+  <AButton v-bind="$props">
     <slot />
-  </button>
+  </AButton>
 </template>
 
 <script>
-  import { Button, buttonProps } from 'vue-ari'
+  import { Button as AButton, buttonProps } from 'vue-ari'
 
   export default {
     name: 'AppButton',
     components: {
-      Button,
+      AButton,
     },
     props: buttonProps,
   }
 </script>
+```
 
-<style lang="scss" scoped>
-  .app-button {
-    outline: 0;
-    color: #ffffff;
-    background: #006dff;
-    padding: 0.375em 0.75em;
-    line-height: 1.5;
-    border: transparent;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 16px;
+## Styling
 
-    &:focus {
-      box-shadow: 0 0 0 0.2em rgba(0, 109, 255, 0.4);
-    }
+Ari components don't include styling by default. This gives you the ability to add styles however you like.
 
-    &[disabled],
-    &[aria-disabled='true'] {
-      cursor: auto;
-      opacity: 0.5;
-    }
+### Example Using Tailwind
 
-    &:not([disabled]),
-    &:not([aria-disabled='true']) {
-      &:hover {
-        color: #ffffff;
-        background-color: #0062e6;
-      }
-      &:active,
-      &[data-active='true'] {
-        color: #ffffff;
-        background-color: #004eb8;
-      }
-    }
+```html
+<template>
+  <AButton
+    v-bind="$props"
+    class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    :class="[
+      $props.disabled
+        ? 'bg-blue-200 cursor-not-allowed'
+        : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800',
+    ]"
+  >
+    <slot />
+  </AButton>
+</template>
+
+<script>
+  import { Button as AButton, buttonProps } from 'vue-ari'
+
+  export default {
+    name: 'AppButton',
+    components: {
+      AButton,
+    },
+    props: buttonProps,
   }
-</style>
+</script>
 ```

@@ -14,6 +14,18 @@ describe('Button', () => {
     `)
   })
 
+  it('can overwrite type', async () => {
+    const { nextTick } = renderJsx(<Button type="submit">foo</Button>)
+    await nextTick()
+    expect(getByText('foo')).toMatchInlineSnapshot(`
+      <button
+        type="submit"
+      >
+        foo
+      </button>
+    `)
+  })
+
   it('can render as div', async () => {
     const { nextTick } = renderJsx(<Button as="div">foo</Button>)
     await nextTick()

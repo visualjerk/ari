@@ -1,7 +1,7 @@
 ---
 description: ''
 sidebar: 'docs'
-next: '/docs/modal/'
+next: '/docs/button/'
 ---
 
 # Introduction
