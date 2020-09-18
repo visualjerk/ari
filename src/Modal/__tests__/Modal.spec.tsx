@@ -12,6 +12,7 @@ describe('Modal', () => {
     await nextTick()
     expect(getByText('foo')).toMatchInlineSnapshot(`
       <div
+        aria-modal="true"
         hidden=""
         id="id"
         role="dialog"

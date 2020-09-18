@@ -85,6 +85,7 @@ export function useModal(props: ModalProps) {
   return {
     ...dialog,
     onKeydown,
+    'aria-modal': true,
     withPortal: !hasBackdrop,
   }
 }
