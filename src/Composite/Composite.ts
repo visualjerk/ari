@@ -13,8 +13,22 @@ export const compositeProps: ComponentObjectPropsOptions<CompositeProps> = {
 export function useComposite(props: CompositeProps) {
   const Tabbable = useTabbable(props)
 
+  function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
+    switch (event.code) {
+      case 'ArrowDown':
+      case 'ArrowRight':
+        props.next()
+        break;
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        props.previous()
+        break;
+    }
+  }
+
   return {
     ...Tabbable,
+    onKeydown: handleKeydown,
     'aria-activedescendant': computed(
       () => `${props.baseId}-${props.selectedItem.value}`
     ),

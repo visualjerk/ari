@@ -39,3 +39,15 @@ const createPress = (key) => async (
 export const pressSpace = createPress(' ')
 export const pressEnter = createPress('{enter}')
 export const pressEsc = createPress('{esc}')
+
+const createArrowPress = (identifier) => (element: Element) => {
+  fireEvent(element, new KeyboardEvent('keydown', {
+    key: identifier,
+    code: identifier,
+  }))
+}
+
+export const pressDown = createArrowPress('ArrowDown')
+export const pressUp= createArrowPress('ArrowUp')
+export const pressLeft= createArrowPress('ArrowLeft')
+export const pressRight= createArrowPress('ArrowRight')
