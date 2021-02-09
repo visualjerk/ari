@@ -13,6 +13,8 @@ export const compositeProps: ComponentObjectPropsOptions<CompositeProps> = {
 export function useComposite(props: CompositeProps) {
   const Tabbable = useTabbable(props)
 
+  props.registerContainer(Tabbable.ref)
+
   function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
     switch (event.code) {
       case 'ArrowDown':

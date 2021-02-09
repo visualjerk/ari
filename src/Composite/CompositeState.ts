@@ -1,9 +1,11 @@
-import { ComponentObjectPropsOptions, ref, Ref, PropType } from 'vue'
+import { ComponentObjectPropsOptions, unref, ref, Ref, PropType } from 'vue'
 
 export interface CompositeStateReturn {
   baseId: string
   selectedItem: Ref<number>
   registerItem: (item: Ref<HTMLElement>) => number
+  registerContainer: (item : Ref<HTMLElement>) => void
+  focus: () => void
   move: (index: number) => void
   next: () => void
   previous: () => void
@@ -20,6 +22,12 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
   registerItem: {
     type: Function as PropType<() => number>,
   },
+  registerContainer: {
+    type: Function as PropType<() => void>,
+  },
+  focus: {
+    type: Function as PropType<() => void>
+  },
   move: {
     type: Function as PropType<() => void>,
   },
@@ -35,6 +43,7 @@ let count = 0
 
 export function useCompositeState(): CompositeStateReturn {
   const selectedItem = ref(null)
+  const containerEl = ref(null)
   const items = ref(new Map())
   
   function registerItem(item) {
@@ -45,6 +54,14 @@ export function useCompositeState(): CompositeStateReturn {
       selectedItem.value = 0
     }
     return itemId
+  }
+
+  function registerContainer(element) {
+    containerEl.value = element
+  }
+
+  function focus() {
+    containerEl.value.value.focus()
   }
 
   function move(index) {
@@ -67,6 +84,8 @@ export function useCompositeState(): CompositeStateReturn {
     baseId: `composite-${count++}`,
     selectedItem,
     registerItem,
+    registerContainer,
+    focus,
     move,
     next,
     previous,

@@ -16,8 +16,7 @@ export function useCompositeItem(props: CompositeItemProps) {
   const itemId = props.registerItem(Clickable.ref)
 
   function handleFocus() {
-    const compositeEl = Clickable.ref.value.parentElement
-    compositeEl.focus()
+    props.focus()
   }
 
   function handleClick() {
