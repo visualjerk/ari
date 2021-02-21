@@ -5,7 +5,7 @@ export interface CompositeStateReturn {
   baseId: string
   selectedItem: Ref<number>
   registerItem: (item: ClickableProps) => number
-  registerContainer: (item : Ref<HTMLElement>) => void
+  registerContainer: (item: Ref<HTMLElement>) => void
   focus: () => void
   keyboard: (event: KeyboardEvent) => void
   move: (index: number) => void
@@ -28,10 +28,10 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
     type: Function as PropType<() => void>,
   },
   focus: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
   },
   keyboard: {
-    type: Function as PropType<() => void>
+    type: Function as PropType<() => void>,
   },
   move: {
     type: Function as PropType<() => void>,
@@ -47,10 +47,10 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
 let count = 0
 
 export function useCompositeState(): CompositeStateReturn {
-  const selectedItem = ref(null)
+  const selectedItem = ref()
   const containerEl = ref(null)
   const items = ref(new Map())
-  
+
   function registerItem(item) {
     const itemId = items.value.size
     items.value.set(itemId, item)

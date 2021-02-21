@@ -6,5 +6,8 @@
     "javascript",
     "javascriptreact",
     "vue"
-  ]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
 }

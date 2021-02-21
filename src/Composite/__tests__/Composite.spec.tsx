@@ -5,7 +5,11 @@ import { renderJsx, getByText } from '../../../test/utils'
 describe('Composite', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <Composite baseId="id" selectedItem={ref(0)} registerContainer={() => null}>
+      <Composite
+        baseId="id"
+        selectedItem={ref(0)}
+        registerContainer={() => null}
+      >
         foo
       </Composite>
     )
@@ -22,7 +26,11 @@ describe('Composite', () => {
 
   it('shows correct active descendant', async () => {
     const { nextTick } = renderJsx(
-      <Composite baseId="bar" selectedItem={ref(1)} registerContainer={() => null}>
+      <Composite
+        baseId="bar"
+        selectedItem={ref(1)}
+        registerContainer={() => null}
+      >
         foo
       </Composite>
     )

@@ -12,19 +12,13 @@ export function useClickable(props: ClickableProps) {
   const tabbable = useTabbable(props)
 
   function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
-    if (
-      event.target?.tagName !== 'BUTTON' &&
-      event.key === 'Enter'
-    ) {
+    if (event.target?.tagName !== 'BUTTON' && event.key === 'Enter') {
       tabbable.onClick(event)
     }
   }
 
   function handleKeyup(event: KeyboardEvent & { target: HTMLElement }) {
-    if (
-      event.target?.tagName !== 'BUTTON' &&
-      event.key === ' '
-    ) {
+    if (event.target?.tagName !== 'BUTTON' && event.key === ' ') {
       tabbable.onClick(event)
     }
   }

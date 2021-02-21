@@ -3,7 +3,9 @@ import { defineComponent } from '../utils'
 import { useClickable, clickableProps, ClickableProps } from '../Clickable'
 import { compositeStateReturn, CompositeStateReturn } from './CompositeState'
 
-export interface CompositeItemProps extends ClickableProps, CompositeStateReturn {}
+export interface CompositeItemProps
+  extends ClickableProps,
+    CompositeStateReturn {}
 
 export const compositeItemProps: ComponentObjectPropsOptions<CompositeItemProps> = {
   ...clickableProps,
@@ -29,11 +31,14 @@ export function useCompositeItem(props: CompositeItemProps) {
     onFocus: handleFocus,
     onClick: handleClick,
     tabindex: -1,
-    id: computed( () => `${props.baseId}-${itemId}`),
-    'aria-selected': computed(
-      () => props.selectedItem.value === itemId ? 'true' : null
+    id: computed(() => `${props.baseId}-${itemId}`),
+    'aria-selected': computed(() =>
+      props.selectedItem.value === itemId ? 'true' : null
     ),
   }
 }
 
-export const CompositeItem = defineComponent(compositeItemProps, useCompositeItem)
+export const CompositeItem = defineComponent(
+  compositeItemProps,
+  useCompositeItem
+)

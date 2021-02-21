@@ -1,5 +1,15 @@
 import { Composite, CompositeItem, useCompositeState } from '..'
-import { render, getByText, click, pressDown, pressUp, pressRight, pressLeft, pressSpace, pressEnter } from '../../../test/utils'
+import {
+  render,
+  getByText,
+  click,
+  pressDown,
+  pressUp,
+  pressRight,
+  pressLeft,
+  pressSpace,
+  pressEnter,
+} from '../../../test/utils'
 
 function createTestSetup({
   template = `
@@ -9,7 +19,7 @@ function createTestSetup({
   <CompositeItem v-bind="composite">baz</CompositeItem>
 </Composite>
   `,
-  props = {}
+  props = {},
 } = {}) {
   const { nextTick } = render({
     setup() {
@@ -98,7 +108,7 @@ describe('Composite Composition', () => {
       </Composite>`,
       props: {
         testFn,
-      }
+      },
     })
     pressDown(composite)
     await nextTick()
@@ -118,7 +128,7 @@ describe('Composite Composition', () => {
       </Composite>`,
       props: {
         testFn,
-      }
+      },
     })
     pressDown(composite)
     await nextTick()
