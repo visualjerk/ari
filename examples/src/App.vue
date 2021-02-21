@@ -11,9 +11,10 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import { useCompositeState, CompositeItem, Composite } from 'vue-ari'
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     CompositeItem,
@@ -27,5 +28,5 @@ export default {
       },
     }
   },
-}
+})
 </script>
