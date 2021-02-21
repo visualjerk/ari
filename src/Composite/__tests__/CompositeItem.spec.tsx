@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { CompositeItem } from '..'
-import { renderJsx, getByText } from '../../../test/utils'
+import { renderJsx, getByText, click } from '../../../test/utils'
 
 describe('CompositeItem', () => {
   it('renders correctly', async () => {
@@ -36,5 +36,25 @@ describe('CompositeItem', () => {
         foo
       </div>
     `)
+  })
+
+  it('handles click', async () => {
+    const testFn = jest.fn()
+    const { nextTick } = renderJsx(
+      <CompositeItem
+        baseId="id"
+        selectedItem={ref(1)}
+        registerItem={() => 0}
+        move={() => null}
+        focus={() => null}
+        onClick={testFn}
+      >
+        foo
+      </CompositeItem>
+    )
+    await nextTick()
+    const item = getByText('foo')
+    click(item)
+    expect(testFn).toBeCalledTimes(1)
   })
 })

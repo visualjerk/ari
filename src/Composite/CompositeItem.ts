@@ -13,14 +13,15 @@ export const compositeItemProps: ComponentObjectPropsOptions<CompositeItemProps>
 export function useCompositeItem(props: CompositeItemProps) {
   const Clickable = useClickable(props)
 
-  const itemId = props.registerItem(Clickable.ref)
+  const itemId = props.registerItem(Clickable)
 
   function handleFocus() {
     props.focus()
   }
 
-  function handleClick() {
+  function handleClick(event: MouseEvent) {
     props.move(itemId)
+    Clickable.onClick(event)
   }
 
   return {

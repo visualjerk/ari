@@ -16,21 +16,33 @@ export function useComposite(props: CompositeProps) {
   props.registerContainer(Tabbable.ref)
 
   function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
-    switch (event.code) {
+    switch (event.key) {
+      case 'Enter':
+        props.keyboard(event)
+        break
       case 'ArrowDown':
       case 'ArrowRight':
         props.next()
-        break;
+        break
       case 'ArrowUp':
       case 'ArrowLeft':
         props.previous()
-        break;
+        break
+    }
+  }
+
+  function handleKeyup(event: KeyboardEvent & { target: HTMLElement }) {
+    switch (event.key) {
+      case ' ':
+        props.keyboard(event)
+        break
     }
   }
 
   return {
     ...Tabbable,
     onKeydown: handleKeydown,
+    onKeyup: handleKeyup,
     'aria-activedescendant': computed(
       () => `${props.baseId}-${props.selectedItem.value}`
     ),

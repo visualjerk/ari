@@ -14,7 +14,16 @@ export function useClickable(props: ClickableProps) {
   function handleKeydown(event: KeyboardEvent & { target: HTMLElement }) {
     if (
       event.target?.tagName !== 'BUTTON' &&
-      [' ', 'Enter'].includes(event.key)
+      event.key === 'Enter'
+    ) {
+      tabbable.onClick(event)
+    }
+  }
+
+  function handleKeyup(event: KeyboardEvent & { target: HTMLElement }) {
+    if (
+      event.target?.tagName !== 'BUTTON' &&
+      event.key === ' '
     ) {
       tabbable.onClick(event)
     }
@@ -23,6 +32,7 @@ export function useClickable(props: ClickableProps) {
   return {
     ...tabbable,
     onKeydown: handleKeydown,
+    onKeyup: handleKeyup,
   }
 }
 

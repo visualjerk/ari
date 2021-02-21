@@ -1,7 +1,9 @@
 <template>
   <div class="p-10">
     <Composite v-bind="compositeState">
-      <CompositeItem v-bind="compositeState">Foo</CompositeItem>
+      <CompositeItem v-bind="compositeState" @click="shout">
+        Foo
+      </CompositeItem>
       <CompositeItem v-bind="compositeState">Bar</CompositeItem>
       <CompositeItem v-bind="compositeState">Baz</CompositeItem>
     </Composite>
@@ -20,6 +22,9 @@ export default {
   setup() {
     return {
       compositeState: useCompositeState(),
+      shout: function () {
+        alert('hey')
+      },
     }
   },
 }

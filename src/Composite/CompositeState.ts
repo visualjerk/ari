@@ -1,11 +1,13 @@
-import { ComponentObjectPropsOptions, unref, ref, Ref, PropType } from 'vue'
+import { ComponentObjectPropsOptions, ref, Ref, PropType } from 'vue'
+import { ClickableProps } from '../Clickable'
 
 export interface CompositeStateReturn {
   baseId: string
   selectedItem: Ref<number>
-  registerItem: (item: Ref<HTMLElement>) => number
+  registerItem: (item: ClickableProps) => number
   registerContainer: (item : Ref<HTMLElement>) => void
   focus: () => void
+  keyboard: (event: KeyboardEvent) => void
   move: (index: number) => void
   next: () => void
   previous: () => void
@@ -26,6 +28,9 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
     type: Function as PropType<() => void>,
   },
   focus: {
+    type: Function as PropType<() => void>
+  },
+  keyboard: {
     type: Function as PropType<() => void>
   },
   move: {
@@ -64,6 +69,12 @@ export function useCompositeState(): CompositeStateReturn {
     containerEl.value.value.focus()
   }
 
+  function keyboard(event: KeyboardEvent) {
+    const currentItem = items.value.get(selectedItem.value)
+    currentItem.onKeydown(event)
+    currentItem.onKeyup(event)
+  }
+
   function move(index) {
     if (index < 0) {
       selectedItem.value = items.value.size - 1
@@ -86,6 +97,7 @@ export function useCompositeState(): CompositeStateReturn {
     registerItem,
     registerContainer,
     focus,
+    keyboard,
     move,
     next,
     previous,

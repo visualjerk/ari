@@ -1,5 +1,5 @@
 import { Composite, CompositeItem, useCompositeState } from '..'
-import { render, getByText, click, pressDown, pressUp, pressRight, pressLeft } from '../../../test/utils'
+import { render, getByText, click, pressDown, pressUp, pressRight, pressLeft, pressSpace, pressEnter } from '../../../test/utils'
 
 function createTestSetup({
   template = `
@@ -9,12 +9,14 @@ function createTestSetup({
   <CompositeItem v-bind="composite">baz</CompositeItem>
 </Composite>
   `,
+  props = {}
 } = {}) {
   const { nextTick } = render({
     setup() {
       const composite = useCompositeState()
       return {
         composite,
+        ...props,
       }
     },
     components: {
@@ -83,5 +85,45 @@ describe('Composite Composition', () => {
     click(secondItem)
     await nextTick()
     expect(secondItem).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('enter on active element triggers click', async () => {
+    const testFn = jest.fn()
+    const { nextTick, composite, secondItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite">foo</CompositeItem>
+        <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
+        <CompositeItem v-bind="composite">baz</CompositeItem>
+      </Composite>`,
+      props: {
+        testFn,
+      }
+    })
+    pressDown(composite)
+    await nextTick()
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+    await pressEnter(composite)
+    expect(testFn).toBeCalledTimes(1)
+  })
+
+  it('space on active element triggers click', async () => {
+    const testFn = jest.fn()
+    const { nextTick, composite, secondItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite">foo</CompositeItem>
+        <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
+        <CompositeItem v-bind="composite">baz</CompositeItem>
+      </Composite>`,
+      props: {
+        testFn,
+      }
+    })
+    pressDown(composite)
+    await nextTick()
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+    await pressSpace(composite)
+    expect(testFn).toBeCalledTimes(1)
   })
 })
