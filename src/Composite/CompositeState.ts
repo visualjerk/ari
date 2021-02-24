@@ -2,7 +2,7 @@ import { ComponentObjectPropsOptions, ref, Ref, PropType } from 'vue'
 
 export interface CompositeStateReturn {
   baseId: string
-  selectedItem: Ref<number>
+  selectedItem: Ref<number | null>
   registerItem: (item) => number
   registerContainer: (item: Ref<HTMLElement>) => void
   focus: () => void
@@ -46,7 +46,7 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
 let count = 0
 
 export function useCompositeState(): CompositeStateReturn {
-  const selectedItem = ref()
+  const selectedItem: Ref<null | number> = ref(null)
   const containerEl = ref(null)
   const items = ref(new Map())
 
@@ -74,7 +74,7 @@ export function useCompositeState(): CompositeStateReturn {
     currentItem.onKeyup(event)
   }
 
-  function move(index) {
+  function move(index: number) {
     if (index < 0) {
       selectedItem.value = items.value.size - 1
     } else {
@@ -82,12 +82,32 @@ export function useCompositeState(): CompositeStateReturn {
     }
   }
 
+  function selectedItemIsDisabled() {
+    const item = items.value.get(selectedItem.value)
+    if (!item) {
+      return
+    }
+    return item['aria-disabled']
+  }
+
   function next() {
+    if (selectedItem.value == null) {
+      return
+    }
     move(selectedItem.value + 1)
+    if (selectedItemIsDisabled()) {
+      next()
+    }
   }
 
   function previous() {
+    if (selectedItem.value == null) {
+      return
+    }
     move(selectedItem.value - 1)
+    if (selectedItemIsDisabled()) {
+      previous()
+    }
   }
 
   return {
