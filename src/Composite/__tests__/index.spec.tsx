@@ -117,23 +117,21 @@ describe('Composite Composition', () => {
     expect(testFn).toBeCalledTimes(1)
   })
 
-  it('space on active element triggers click', async () => {
-    const testFn = jest.fn()
-    const { nextTick, composite, secondItem } = createTestSetup({
+  it('skips disabled items', async () => {
+    const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
       template: `
       <Composite v-bind="composite">
         <CompositeItem v-bind="composite">foo</CompositeItem>
-        <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
+        <CompositeItem v-bind="composite" disabled>bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
       </Composite>`,
-      props: {
-        testFn,
-      },
     })
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
     pressDown(composite)
     await nextTick()
-    expect(secondItem).toHaveAttribute('aria-selected', 'true')
-    await pressSpace(composite)
-    expect(testFn).toBeCalledTimes(1)
+    expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+    pressUp(composite)
+    await nextTick()
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
   })
 })

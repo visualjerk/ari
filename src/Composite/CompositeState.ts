@@ -1,10 +1,9 @@
 import { ComponentObjectPropsOptions, ref, Ref, PropType } from 'vue'
-import { ClickableProps } from '../Clickable'
 
 export interface CompositeStateReturn {
   baseId: string
   selectedItem: Ref<number>
-  registerItem: (item: ClickableProps) => number
+  registerItem: (item) => number
   registerContainer: (item: Ref<HTMLElement>) => void
   focus: () => void
   keyboard: (event: KeyboardEvent) => void
