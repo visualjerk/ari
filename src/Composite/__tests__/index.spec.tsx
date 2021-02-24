@@ -134,4 +134,16 @@ describe('Composite Composition', () => {
     await nextTick()
     expect(firstItem).toHaveAttribute('aria-selected', 'true')
   })
+
+  it('does not select disabled item', async () => {
+    const { secondItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite" disabled>foo</CompositeItem>
+        <CompositeItem v-bind="composite">bar</CompositeItem>
+        <CompositeItem v-bind="composite">baz</CompositeItem>
+      </Composite>`,
+    })
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+  })
 })

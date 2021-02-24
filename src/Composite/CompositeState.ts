@@ -55,7 +55,10 @@ export function useCompositeState(): CompositeStateReturn {
     items.value.set(itemId, item)
 
     if (selectedItem.value == null) {
-      selectedItem.value = 0
+      selectedItem.value = itemId
+      if (selectedItemIsDisabled()) {
+        selectedItem.value = null
+      }
     }
     return itemId
   }
@@ -82,14 +85,6 @@ export function useCompositeState(): CompositeStateReturn {
     }
   }
 
-  function selectedItemIsDisabled() {
-    const item = items.value.get(selectedItem.value)
-    if (!item) {
-      return
-    }
-    return item['aria-disabled']
-  }
-
   function next() {
     if (selectedItem.value == null) {
       return
@@ -108,6 +103,14 @@ export function useCompositeState(): CompositeStateReturn {
     if (selectedItemIsDisabled()) {
       previous()
     }
+  }
+
+  function selectedItemIsDisabled() {
+    const item = items.value.get(selectedItem.value)
+    if (!item) {
+      return
+    }
+    return item['aria-disabled']
   }
 
   return {
