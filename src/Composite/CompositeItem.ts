@@ -1,4 +1,4 @@
-import { ComponentObjectPropsOptions, computed } from 'vue'
+import { ComponentObjectPropsOptions, computed, onBeforeUnmount } from 'vue'
 import { defineComponent } from '../utils'
 import { useClickable, clickableProps, ClickableProps } from '../Clickable'
 import { compositeStateReturn, CompositeStateReturn } from './CompositeState'
@@ -25,6 +25,8 @@ export function useCompositeItem(props: CompositeItemProps) {
     props.move(itemId)
     Clickable.onClick(event)
   }
+
+  onBeforeUnmount(() => props.unregisterItem(itemId))
 
   return {
     ...Clickable,

@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { Composite, CompositeItem, useCompositeState } from '..'
 import {
   render,
@@ -146,4 +147,43 @@ describe('Composite Composition', () => {
     })
     expect(secondItem).toHaveAttribute('aria-selected', 'true')
   })
+
+  it('respects optional items', async () => {
+    const show = ref(true)
+    const { nextTick, composite, thirdItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite">foo</CompositeItem>
+        <CompositeItem v-bind="composite" v-if="show">bar</CompositeItem>
+        <CompositeItem v-bind="composite">baz</CompositeItem>
+      </Composite>`,
+      props: {
+        show,
+      },
+    })
+    show.value = false
+    await nextTick()
+    pressDown(composite)
+    await nextTick()
+    expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+  })
+
+  // it('respects moving html position', async () => {
+  //   const position = ref(['foo', 'bar', 'baz'])
+  //   const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
+  //     template: `
+  //     <Composite v-bind="composite">
+  //       <CompositeItem v-bind="composite" v-for="item in position" :key="item">{{ item }}</CompositeItem>
+  //     </Composite>`,
+  //     props: {
+  //       position,
+  //     },
+  //   })
+  //   expect(firstItem).toHaveAttribute('aria-selected', 'true')
+  //   position.value = ['foo', 'baz', 'bar']
+  //   await nextTick()
+  //   pressDown(composite)
+  //   await nextTick()
+  //   expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+  // })
 })

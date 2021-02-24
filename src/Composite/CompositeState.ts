@@ -4,6 +4,7 @@ export interface CompositeStateReturn {
   baseId: string
   selectedItem: Ref<number | null>
   registerItem: (item) => number
+  unregisterItem: (itemId: number) => void
   registerContainer: (item: Ref<HTMLElement>) => void
   focus: () => void
   keyboard: (event: KeyboardEvent) => void
@@ -22,6 +23,9 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
   },
   registerItem: {
     type: Function as PropType<() => number>,
+  },
+  unregisterItem: {
+    type: Function as PropType<() => void>,
   },
   registerContainer: {
     type: Function as PropType<() => void>,
@@ -56,11 +60,15 @@ export function useCompositeState(): CompositeStateReturn {
 
     if (selectedItem.value == null) {
       selectedItem.value = itemId
-      if (selectedItemIsDisabled()) {
+      if (selectedItemIsNotSelectable()) {
         selectedItem.value = null
       }
     }
     return itemId
+  }
+
+  function unregisterItem(itemId) {
+    items.value.delete(itemId)
   }
 
   function registerContainer(element) {
@@ -78,11 +86,18 @@ export function useCompositeState(): CompositeStateReturn {
   }
 
   function move(index: number) {
-    if (index < 0) {
-      selectedItem.value = items.value.size - 1
-    } else {
-      selectedItem.value = index % items.value.size
+    const keys = Array.from(items.value.keys())
+    const firstKey = keys[0]
+    const lastKey = keys[keys.length - 1]
+    if (index < firstKey) {
+      selectedItem.value = lastKey
+      return
     }
+    if (index > lastKey) {
+      selectedItem.value = firstKey
+      return
+    }
+    selectedItem.value = index
   }
 
   function next() {
@@ -90,7 +105,7 @@ export function useCompositeState(): CompositeStateReturn {
       return
     }
     move(selectedItem.value + 1)
-    if (selectedItemIsDisabled()) {
+    if (selectedItemIsNotSelectable()) {
       next()
     }
   }
@@ -100,15 +115,15 @@ export function useCompositeState(): CompositeStateReturn {
       return
     }
     move(selectedItem.value - 1)
-    if (selectedItemIsDisabled()) {
+    if (selectedItemIsNotSelectable()) {
       previous()
     }
   }
 
-  function selectedItemIsDisabled() {
+  function selectedItemIsNotSelectable() {
     const item = items.value.get(selectedItem.value)
     if (!item) {
-      return
+      return true
     }
     return item['aria-disabled']
   }
@@ -117,6 +132,7 @@ export function useCompositeState(): CompositeStateReturn {
     baseId: `composite-${count++}`,
     selectedItem,
     registerItem,
+    unregisterItem,
     registerContainer,
     focus,
     keyboard,

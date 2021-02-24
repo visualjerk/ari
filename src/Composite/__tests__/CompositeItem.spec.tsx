@@ -5,7 +5,12 @@ import { renderJsx, getByText, click } from '../../../test/utils'
 describe('CompositeItem', () => {
   it('renders correctly', async () => {
     const { nextTick } = renderJsx(
-      <CompositeItem baseId="id" selectedItem={ref(0)} registerItem={() => 0}>
+      <CompositeItem
+        baseId="id"
+        selectedItem={ref(0)}
+        registerItem={() => 0}
+        unregisterItem={() => null}
+      >
         foo
       </CompositeItem>
     )
@@ -23,7 +28,12 @@ describe('CompositeItem', () => {
 
   it('renders unselected correctly', async () => {
     const { nextTick } = renderJsx(
-      <CompositeItem baseId="id" selectedItem={ref(1)} registerItem={() => 0}>
+      <CompositeItem
+        baseId="id"
+        selectedItem={ref(1)}
+        registerItem={() => 0}
+        unregisterItem={() => null}
+      >
         foo
       </CompositeItem>
     )
@@ -45,6 +55,7 @@ describe('CompositeItem', () => {
         baseId="id"
         selectedItem={ref(1)}
         registerItem={() => 0}
+        unregisterItem={() => null}
         move={() => null}
         focus={() => null}
         onClick={testFn}
