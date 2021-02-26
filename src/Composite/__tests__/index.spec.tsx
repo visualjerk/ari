@@ -55,6 +55,18 @@ describe('Composite Composition', () => {
     expect(secondItem).toHaveAttribute('aria-selected', 'true')
   })
 
+  it('wraps selection on arrow down', async () => {
+    const { nextTick, composite, firstItem } = createTestSetup()
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
+    pressDown(composite)
+    await nextTick()
+    pressDown(composite)
+    await nextTick()
+    pressDown(composite)
+    await nextTick()
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
+  })
+
   it('moves selection on arrow up', async () => {
     const { nextTick, composite, firstItem, secondItem } = createTestSetup()
     expect(firstItem).toHaveAttribute('aria-selected', 'true')
@@ -98,7 +110,7 @@ describe('Composite Composition', () => {
     expect(secondItem).toHaveAttribute('aria-selected', 'true')
   })
 
-  it('enter on active element triggers click', async () => {
+  it('enter triggers click on active element', async () => {
     const testFn = jest.fn()
     const { nextTick, composite, secondItem } = createTestSetup({
       template: `
@@ -115,6 +127,26 @@ describe('Composite Composition', () => {
     await nextTick()
     expect(secondItem).toHaveAttribute('aria-selected', 'true')
     await pressEnter(composite)
+    expect(testFn).toBeCalledTimes(1)
+  })
+
+  it('space triggers click on active element', async () => {
+    const testFn = jest.fn()
+    const { nextTick, composite, secondItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite">foo</CompositeItem>
+        <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
+        <CompositeItem v-bind="composite">baz</CompositeItem>
+      </Composite>`,
+      props: {
+        testFn,
+      },
+    })
+    pressDown(composite)
+    await nextTick()
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+    await pressSpace(composite)
     expect(testFn).toBeCalledTimes(1)
   })
 
@@ -166,24 +198,30 @@ describe('Composite Composition', () => {
     pressDown(composite)
     await nextTick()
     expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+    show.value = true
+    await nextTick()
+    pressUp(composite)
+    await nextTick()
+    const newSecondItem = getByText('bar')
+    expect(newSecondItem).toHaveAttribute('aria-selected', 'true')
   })
 
-  // it('respects moving html position', async () => {
-  //   const position = ref(['foo', 'bar', 'baz'])
-  //   const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
-  //     template: `
-  //     <Composite v-bind="composite">
-  //       <CompositeItem v-bind="composite" v-for="item in position" :key="item">{{ item }}</CompositeItem>
-  //     </Composite>`,
-  //     props: {
-  //       position,
-  //     },
-  //   })
-  //   expect(firstItem).toHaveAttribute('aria-selected', 'true')
-  //   position.value = ['foo', 'baz', 'bar']
-  //   await nextTick()
-  //   pressDown(composite)
-  //   await nextTick()
-  //   expect(thirdItem).toHaveAttribute('aria-selected', 'true')
-  // })
+  it('respects moving html position', async () => {
+    const position = ref(['foo', 'bar', 'baz'])
+    const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
+      template: `
+      <Composite v-bind="composite">
+        <CompositeItem v-bind="composite" v-for="item in position" :key="item">{{ item }}</CompositeItem>
+      </Composite>`,
+      props: {
+        position,
+      },
+    })
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
+    position.value = ['foo', 'baz', 'bar']
+    await nextTick()
+    pressDown(composite)
+    await nextTick()
+    expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+  })
 })

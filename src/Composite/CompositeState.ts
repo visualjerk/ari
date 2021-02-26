@@ -50,12 +50,21 @@ export const compositeStateReturn: ComponentObjectPropsOptions<CompositeStateRet
 let count = 0
 
 export function useCompositeState(): CompositeStateReturn {
-  const selectedItem: Ref<null | number> = ref(null)
+  const baseId = `composite-${count++}`
+  const selectedItem: Ref<number | null> = ref(null)
   const containerEl = ref(null)
   const items = ref(new Map())
+  let nextId = 0
+
+  function getCurrentItem() {
+    if (selectedItem.value == null) {
+      return null
+    }
+    return items.value.get(selectedItem.value)
+  }
 
   function registerItem(item) {
-    const itemId = items.value.size
+    const itemId = nextId++
     items.value.set(itemId, item)
 
     if (selectedItem.value == null) {
@@ -64,6 +73,7 @@ export function useCompositeState(): CompositeStateReturn {
         selectedItem.value = null
       }
     }
+
     return itemId
   }
 
@@ -80,48 +90,66 @@ export function useCompositeState(): CompositeStateReturn {
   }
 
   function keyboard(event: KeyboardEvent) {
-    const currentItem = items.value.get(selectedItem.value)
+    const currentItem = getCurrentItem()
     currentItem.onKeydown(event)
     currentItem.onKeyup(event)
   }
 
-  function move(index: number) {
-    const keys = Array.from(items.value.keys())
-    const firstKey = keys[0]
-    const lastKey = keys[keys.length - 1]
-    if (index < firstKey) {
-      selectedItem.value = lastKey
-      return
+  function getIdByEl(el) {
+    const itemId = el.id
+    return Number(itemId.replace(`${baseId}-`, ''))
+  }
+
+  function move(itemId: number) {
+    if (items.value.get(itemId) !== null) {
+      selectedItem.value = itemId
     }
-    if (index > lastKey) {
-      selectedItem.value = firstKey
-      return
-    }
-    selectedItem.value = index
   }
 
   function next() {
-    if (selectedItem.value == null) {
+    const currentItem = getCurrentItem()
+    const currentEl = currentItem.ref
+    if (!currentEl) {
       return
     }
-    move(selectedItem.value + 1)
+    let nextEl = currentEl.nextElementSibling
+    if (!nextEl) {
+      let prevEl = currentEl.previousElementSibling
+      while (prevEl.previousElementSibling) {
+        prevEl = prevEl.previousElementSibling
+      }
+      nextEl = prevEl
+    }
+    const nextId = getIdByEl(nextEl)
+    move(nextId)
     if (selectedItemIsNotSelectable()) {
       next()
     }
   }
 
   function previous() {
-    if (selectedItem.value == null) {
+    const currentItem = getCurrentItem()
+    const currentEl = currentItem.ref
+    if (!currentEl) {
       return
     }
-    move(selectedItem.value - 1)
+    let previousEl = currentEl.previousElementSibling
+    if (!previousEl) {
+      let nextEl = currentEl.nextElementSibling
+      while (nextEl.nextElementSibling) {
+        nextEl = nextEl.nextElementSibling
+      }
+      previousEl = nextEl
+    }
+    const previousId = getIdByEl(previousEl)
+    move(previousId)
     if (selectedItemIsNotSelectable()) {
       previous()
     }
   }
 
   function selectedItemIsNotSelectable() {
-    const item = items.value.get(selectedItem.value)
+    const item = getCurrentItem()
     if (!item) {
       return true
     }
@@ -129,7 +157,7 @@ export function useCompositeState(): CompositeStateReturn {
   }
 
   return {
-    baseId: `composite-${count++}`,
+    baseId,
     selectedItem,
     registerItem,
     unregisterItem,
