@@ -1,17 +1,34 @@
 <template>
   <div class="p-10">
-    <Composite v-bind="compositeState">
-      <CompositeItem v-bind="compositeState" @click="shout">
-        Foo
+    <button @click="reverse">reverse</button>
+    <Composite
+      v-bind="compositeState"
+      class="focus:outline-none flex gap-2 group"
+    >
+      <CompositeItem
+        v-bind="compositeState"
+        v-for="option in options"
+        :key="option"
+        as="button"
+        #="slotProps"
+      >
+        <div
+          class="font-bold py-2 px-4 rounded"
+          :class="[
+            slotProps['aria-selected']
+              ? 'text-white bg-blue-600 group-focus:shadow-outline'
+              : 'text-blue-800 bg-blue-100',
+          ]"
+        >
+          {{ option }}
+        </div>
       </CompositeItem>
-      <CompositeItem v-bind="compositeState">Bar</CompositeItem>
-      <CompositeItem v-bind="compositeState">Baz</CompositeItem>
     </Composite>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useCompositeState, CompositeItem, Composite } from 'vue-ari'
 
 export default defineComponent({
@@ -21,11 +38,16 @@ export default defineComponent({
     Composite,
   },
   setup() {
+    const options = ref(['Foo', 'Bar', 'Baz', 'Bauz'])
+
+    function reverse() {
+      options.value.reverse()
+    }
+
     return {
+      reverse,
+      options,
       compositeState: useCompositeState(),
-      shout: function () {
-        alert('hey')
-      },
     }
   },
 })

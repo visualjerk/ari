@@ -25,7 +25,11 @@ export function defineComponent(componentProps, useAttributeRefs) {
       const attributeRefs = useAttributeRefs(props)
       return () => {
         const { withPortal, ...attributes } = refsToAttributes(attributeRefs)
-        const renderedComp = h(props.as, { ...attributes, ...attrs }, slots)
+        const renderedComp = h(
+          props.as,
+          { ...attributes, ...attrs },
+          slots.default && slots.default({ ...attributes })
+        )
         if (withPortal) {
           return h(Portal, null, renderedComp)
         }
