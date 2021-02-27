@@ -14,7 +14,7 @@ import {
 
 function createTestSetup({
   template = `
-<Composite v-bind="composite">
+<Composite v-bind="composite" id="0">
   <CompositeItem v-bind="composite">foo</CompositeItem>
   <CompositeItem v-bind="composite">bar</CompositeItem>
   <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -39,7 +39,7 @@ function createTestSetup({
 
   return {
     nextTick,
-    composite: getByText('foo').parentElement,
+    composite: document.getElementById('0'),
     firstItem: getByText('foo'),
     secondItem: getByText('bar'),
     thirdItem: getByText('baz'),
@@ -114,7 +114,7 @@ describe('Composite Composition', () => {
     const testFn = jest.fn()
     const { nextTick, composite, secondItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite">foo</CompositeItem>
         <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -134,7 +134,7 @@ describe('Composite Composition', () => {
     const testFn = jest.fn()
     const { nextTick, composite, secondItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite">foo</CompositeItem>
         <CompositeItem v-bind="composite" @click="testFn">bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -153,7 +153,7 @@ describe('Composite Composition', () => {
   it('skips disabled items', async () => {
     const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite">foo</CompositeItem>
         <CompositeItem v-bind="composite" disabled>bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -171,7 +171,7 @@ describe('Composite Composition', () => {
   it('does not select disabled item', async () => {
     const { secondItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite" disabled>foo</CompositeItem>
         <CompositeItem v-bind="composite">bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -184,7 +184,7 @@ describe('Composite Composition', () => {
     const show = ref(true)
     const { nextTick, composite, thirdItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite">foo</CompositeItem>
         <CompositeItem v-bind="composite" v-if="show">bar</CompositeItem>
         <CompositeItem v-bind="composite">baz</CompositeItem>
@@ -210,7 +210,7 @@ describe('Composite Composition', () => {
     const position = ref(['foo', 'bar', 'baz'])
     const { nextTick, composite, firstItem, thirdItem } = createTestSetup({
       template: `
-      <Composite v-bind="composite">
+      <Composite v-bind="composite" id="0">
         <CompositeItem v-bind="composite" v-for="item in position" :key="item">{{ item }}</CompositeItem>
       </Composite>`,
       props: {
@@ -223,5 +223,39 @@ describe('Composite Composition', () => {
     pressDown(composite)
     await nextTick()
     expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('respects nested items', async () => {
+    const {
+      nextTick,
+      composite,
+      firstItem,
+      secondItem,
+      thirdItem,
+    } = createTestSetup({
+      template: `
+      <Composite v-bind="composite" id="0">
+        <div><CompositeItem v-bind="composite">foo</CompositeItem></div>
+        <div>
+          <div><CompositeItem v-bind="composite">bar</CompositeItem></div>
+          <div><CompositeItem v-bind="composite">baz</CompositeItem></div>
+        </div>
+      </Composite>`,
+    })
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
+    pressDown(composite)
+    await nextTick()
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+    pressDown(composite)
+    await nextTick()
+    expect(thirdItem).toHaveAttribute('aria-selected', 'true')
+    pressUp(composite)
+    await nextTick()
+    expect(secondItem).toHaveAttribute('aria-selected', 'true')
+    pressDown(composite)
+    await nextTick()
+    pressDown(composite)
+    await nextTick()
+    expect(firstItem).toHaveAttribute('aria-selected', 'true')
   })
 })

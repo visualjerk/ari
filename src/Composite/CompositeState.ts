@@ -106,21 +106,50 @@ export function useCompositeState(): CompositeStateReturn {
     }
   }
 
+  function sortedByDomPosition(a, b) {
+    if (
+      a.ref.compareDocumentPosition(b.ref) & a.ref.DOCUMENT_POSITION_PRECEDING
+    ) {
+      return 1
+    }
+    if (
+      a.ref.compareDocumentPosition(b.ref) & a.ref.DOCUMENT_POSITION_FOLLOWING
+    ) {
+      return -1
+    }
+    return 0
+  }
+
+  function getItemsSortedByDomPosition() {
+    return Array.from(items.value.values()).sort(sortedByDomPosition)
+  }
+
+  function getNextItemByDomPosition(item) {
+    const sortedItems = getItemsSortedByDomPosition()
+    const itemIndex = sortedItems.indexOf(item)
+    return sortedItems[itemIndex + 1]
+      ? sortedItems[itemIndex + 1]
+      : sortedItems[0]
+  }
+
+  function getPreviousItemByDomPosition(item) {
+    const sortedItems = getItemsSortedByDomPosition()
+    const itemIndex = sortedItems.indexOf(item)
+    return sortedItems[itemIndex - 1]
+      ? sortedItems[itemIndex - 1]
+      : sortedItems[sortedItems.length - 1]
+  }
+
   function next() {
     const currentItem = getCurrentItem()
-    const currentEl = currentItem.ref
-    if (!currentEl) {
+    if (!currentItem) {
       return
     }
-    let nextEl = currentEl.nextElementSibling
-    if (!nextEl) {
-      let prevEl = currentEl.previousElementSibling
-      while (prevEl.previousElementSibling) {
-        prevEl = prevEl.previousElementSibling
-      }
-      nextEl = prevEl
+    const nextItem = getNextItemByDomPosition(currentItem)
+    if (!nextItem) {
+      return
     }
-    const nextId = getIdByEl(nextEl)
+    const nextId = getIdByEl(nextItem.ref)
     move(nextId)
     if (selectedItemIsNotSelectable()) {
       next()
@@ -129,19 +158,14 @@ export function useCompositeState(): CompositeStateReturn {
 
   function previous() {
     const currentItem = getCurrentItem()
-    const currentEl = currentItem.ref
-    if (!currentEl) {
+    if (!currentItem) {
       return
     }
-    let previousEl = currentEl.previousElementSibling
-    if (!previousEl) {
-      let nextEl = currentEl.nextElementSibling
-      while (nextEl.nextElementSibling) {
-        nextEl = nextEl.nextElementSibling
-      }
-      previousEl = nextEl
+    const previousItem = getPreviousItemByDomPosition(currentItem)
+    if (!previousItem) {
+      return
     }
-    const previousId = getIdByEl(previousEl)
+    const previousId = getIdByEl(previousItem.ref)
     move(previousId)
     if (selectedItemIsNotSelectable()) {
       previous()
