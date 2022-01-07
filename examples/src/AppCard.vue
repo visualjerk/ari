@@ -1,6 +1,8 @@
 <template>
   <Box v-bind="$props" class="rounded focus:outline-none focus:shadow-outline">
-    <div class="rounded shadow-lg border border-solid border-gray-300 py-3 px-5 bg-white text-left">
+    <div
+      class="rounded shadow-lg border border-solid border-gray-300 py-3 px-5 bg-white text-left"
+    >
       <slot />
     </div>
   </Box>

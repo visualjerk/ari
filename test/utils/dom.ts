@@ -1,7 +1,13 @@
-import { getByText as _getByText, fireEvent } from '@testing-library/dom'
+import {
+  getByText as _getByText,
+  getByLabelText as _getByLabelText,
+  fireEvent,
+} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 export const getByText = (text: string) => _getByText(document.body, text)
+export const getByLabelText = (text: string) =>
+  _getByLabelText(document.body, text)
 export const { click, dblClick, tab } = userEvent
 
 type TypeOptions = {

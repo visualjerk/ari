@@ -40,6 +40,7 @@ describe('CompositeItem', () => {
     await nextTick()
     expect(getByText('foo')).toMatchInlineSnapshot(`
       <div
+        aria-selected="false"
         id="id-0"
         tabindex="-1"
       >
