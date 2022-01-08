@@ -5,27 +5,40 @@ import {
   compositeItemProps,
   CompositeItemProps,
 } from '../Composite'
+import { radioStateReturn, RadioStateReturn } from './RadioState'
 
-export type RadioProps = CompositeItemProps
+export type RadioProps = CompositeItemProps &
+  RadioStateReturn & {
+    value: string | number
+  }
 
-export const radioProps: ComponentObjectPropsOptions<CompositeItemProps> = {
+export const radioProps: ComponentObjectPropsOptions<RadioProps> = {
   ...compositeItemProps,
+  ...radioStateReturn,
   as: {
     type: [String, Object],
     default: 'input',
+  },
+  value: {
+    required: true,
   },
 }
 
 export function useRadio(props: RadioProps) {
   const composite = useCompositeItem(props)
 
+  const checked = computed(() => unref(props.currentValue) === props.value)
+
+  function onClick() {
+    props.setCurrentValue(props.value)
+  }
+
   return {
     ...composite,
     type: 'radio',
-    checked: composite['aria-selected'],
-    'aria-checked': computed(() =>
-      unref(composite['aria-selected']) ? 'true' : 'false'
-    ),
+    checked,
+    'aria-checked': computed(() => (unref(checked) ? 'true' : 'false')),
+    onClick,
   }
 }
 

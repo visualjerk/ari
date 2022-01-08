@@ -11,6 +11,8 @@ describe('Radio', () => {
         registerItem={() => 0}
         unregisterItem={() => null}
         aria-label="foo"
+        currentValue="foo"
+        value="foo"
       />
     )
     await nextTick()
@@ -34,6 +36,8 @@ describe('Radio', () => {
         registerItem={() => 0}
         unregisterItem={() => null}
         aria-label="foo"
+        currentValue="bar"
+        value="foo"
       />
     )
     await nextTick()

@@ -86,7 +86,7 @@ export function useCompositeState(): CompositeStateReturn {
   }
 
   function focus() {
-    containerEl.value.value.focus()
+    containerEl.value?.value.focus()
   }
 
   function keyboard(event: KeyboardEvent) {
