@@ -352,7 +352,7 @@ describe('Dialog Composition', () => {
     expect(content).not.toBeVisible()
   })
 
-  it.only('tab without tabbable element after disclosure and tabindex 0 on dialog hides dialog', async () => {
+  it('tab without tabbable element after disclosure and tabindex 0 on dialog hides dialog', async () => {
     const { content, disclosure, nextTick } = createTestSetup({
       template: `
     <div>

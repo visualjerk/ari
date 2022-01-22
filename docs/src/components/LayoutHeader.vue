@@ -64,7 +64,7 @@
           </a>
 
           <ToggleDarkMode class="ml-2 sm:ml-8">
-            <template slot="default" slot-scope="{ dark }">
+            <template #default="{ dark }" >
               <MoonIcon v-if="dark" size="1.5x" />
               <SunIcon v-else size="1.5x" />
             </template>

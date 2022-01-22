@@ -5,7 +5,7 @@ export const getByText = (text) => _getByText(document.body, text)
 export const { click, dblClick, tab } = userEvent
 
 type TypeOptions = {
-  delay?: number
+  delay: number
   skipClick?: boolean
   skipAutoClose?: boolean
   initialSelectionStart?: number
@@ -15,11 +15,11 @@ type TypeOptions = {
 export const type = (
   element: Element,
   text: string,
-  options: TypeOptions = {}
-) => {
-  if (options.skipClick == null) {
-    options.skipClick = true
+  options: TypeOptions = {
+    delay: 0,
+    skipClick: true,
   }
+) => {
   return userEvent.type(element, text, options)
 }
 
@@ -29,12 +29,11 @@ export const mousedown = (element: Element) =>
 export const mouseover = (element: Element) =>
   fireEvent(element, new MouseEvent('mouseover'))
 
-const createPress = (key) => async (
-  element: Element & { focus: () => void }
-) => {
-  element.focus()
-  await type(element, key)
-}
+const createPress =
+  (key) => async (element: Element & { focus: () => void }) => {
+    element.focus()
+    await type(element, key)
+  }
 
 export const pressSpace = createPress(' ')
 export const pressEnter = createPress('{enter}')

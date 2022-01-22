@@ -9,8 +9,6 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/vue',
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -22,5 +20,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'vue/multi-word-component-names': 'off',
   },
+  ignorePatterns: ['lib', 'docs', 'coverage'],
 }

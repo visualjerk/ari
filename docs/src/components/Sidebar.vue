@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="sidebar"
     v-if="showSidebar"
+    ref="sidebar"
     class="px-4 pt-8 lg:pt-12"
   >
     <div

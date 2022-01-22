@@ -1,5 +1,5 @@
 <template>
-  <button @click="handleClick" aria-label="Toggle Darkmode" title="Toggle Darkmode">
+  <button aria-label="Toggle Darkmode" title="Toggle Darkmode" @click="handleClick">
     <slot :dark="isDarkMode" />
   </button>
 </template>
@@ -11,6 +11,18 @@ export default {
   data() {
     return {
       isDarkMode: false
+    }
+  },
+
+  mounted() {
+    if (this.hasInStorage()) {
+      this.toggleDarkMode(
+        this.getFromStorage()
+      );
+    } else if (process.isClient && window.matchMedia) {
+      this.toggleDarkMode(
+        this.detectPrefered()
+      );
     }
   },
 
@@ -48,18 +60,6 @@ export default {
 
     getFromStorage() {
       return localStorage.getItem(LIGHTS_OUT) === 'true' ? true : false;
-    }
-  },
-
-  mounted() {
-    if (this.hasInStorage()) {
-      this.toggleDarkMode(
-        this.getFromStorage()
-      );
-    } else if (process.isClient && window.matchMedia) {
-      this.toggleDarkMode(
-        this.detectPrefered()
-      );
     }
   }
 };
