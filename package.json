@@ -1,6 +1,6 @@
 {
   "name": "vue-ari",
-  "version": "0.0.0-alpha.12",
+  "version": "0.0.0-alpha.13",
   "license": "MIT",
   "repository": "https://github.com/visualjerk/ari",
   "main": "lib/index.js",
