@@ -16,10 +16,14 @@ function createTestSetup({
   <Dialog v-bind="dialog">bar</Dialog>
 </div>
   `,
+  visible = false,
 } = {}) {
   const { nextTick } = render({
     setup() {
       const dialog = useDialogState()
+      if (visible) {
+        dialog.show()
+      }
       return {
         dialog,
       }
@@ -132,6 +136,45 @@ describe('Dialog Composition', () => {
     pressEsc(content)
     await nextTick()
     expect(disclosure).toHaveFocus()
+  })
+
+  it('hide focuses last active element without real disclosure', async () => {
+    const { disclosure: outsideButton, nextTick } = createTestSetup({
+      template: `
+    <div>
+      <button @click="dialog.show">foo</button>
+      <Dialog v-bind="dialog">
+        bar
+        <button @click="dialog.hide">hide</button>
+      </Dialog>
+    </div>
+      `,
+    })
+
+    click(outsideButton)
+    await nextTick()
+    click(getByText('hide'))
+    await nextTick()
+    expect(outsideButton).toHaveFocus()
+  })
+
+  it('hide focuses document body when visible initially', async () => {
+    const { nextTick } = createTestSetup({
+      template: `
+    <div>
+      <button>foo</button>
+      <Dialog v-bind="dialog">
+        bar
+        <button @click="dialog.hide">hide</button>
+      </Dialog>
+    </div>
+      `,
+      visible: true,
+    })
+
+    click(getByText('hide'))
+    await nextTick()
+    expect(document.body).toHaveFocus()
   })
 
   it('click outside hides dialog', async () => {

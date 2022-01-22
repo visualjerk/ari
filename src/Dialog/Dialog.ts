@@ -12,6 +12,8 @@ import {
   elementIsWithin,
   focusIsWithin,
   defineComponent,
+  focusFirstFocusable,
+  forceFocus,
 } from '../utils'
 import {
   useDisclosureContent,
@@ -61,13 +63,14 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
   const { hide, baseId } = props
 
   function hideOnFocusOutside(event: FocusEvent) {
+    const target = event.target as HTMLElement
     const disclosure: HTMLElement = document.querySelector(
       `[aria-controls="${baseId}"]`
     )
     if (
       props.visible.value &&
-      !elementIsWithin(getElementFromRef(ref), event.target as HTMLElement) &&
-      !elementIsWithin(disclosure, event.target as HTMLElement)
+      !elementIsWithin(getElementFromRef(ref), target) &&
+      !elementIsWithin(disclosure, target)
     ) {
       hide()
     }
@@ -89,15 +92,12 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
   })
 }
 
-function focusFirstFocusable(element: HTMLElement) {
-  const elementToFocus = getTabbableElements(element)[0] || element
-  elementToFocus.focus()
-}
-
 function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
+  let lastFocusedElement: HTMLElement = null
+
   onMounted(() => {
     if (props.visible.value) {
-      focusFirstFocusable(getElementFromRef(ref))
+      lastFocusedElement = document.activeElement as HTMLElement
     }
   })
 
@@ -105,6 +105,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     () => props.visible.value,
     (visible) => {
       if (visible) {
+        lastFocusedElement = document.activeElement as HTMLElement
         focusFirstFocusable(getElementFromRef(ref))
       }
     },
@@ -118,10 +119,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     () => props.visible.value,
     (visible) => {
       if (!visible && focusIsWithin(getElementFromRef(ref))) {
-        const disclosure: HTMLElement = document.querySelector(
-          `[aria-controls="${props.baseId}"]`
-        )
-        disclosure.focus()
+        forceFocus(lastFocusedElement)
       }
     },
     {

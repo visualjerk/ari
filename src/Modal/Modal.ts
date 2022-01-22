@@ -2,6 +2,7 @@ import {
   ComponentObjectPropsOptions,
   Ref,
   watch,
+  onMounted,
   onBeforeUnmount,
   inject,
 } from 'vue'
@@ -11,6 +12,7 @@ import {
   getElementFromRef,
   getTabbableElements,
   isFocused,
+  focusFirstFocusable,
 } from '../utils'
 import { useDialog, dialogProps, DialogProps } from '../Dialog'
 
@@ -69,10 +71,19 @@ function useBodyScrollLock(elementRef: Ref, props: ModalProps) {
   })
 }
 
+function useHandleInitialFocus(elementRef: Ref, props: ModalProps) {
+  onMounted(() => {
+    if (props.visible.value) {
+      focusFirstFocusable(getElementFromRef(elementRef))
+    }
+  })
+}
+
 export function useModal(props: ModalProps) {
   const dialog = useDialog(props)
 
   useBodyScrollLock(dialog.ref, props)
+  useHandleInitialFocus(dialog.ref, props)
   const { handleKeydownTab } = useFocusTrap(dialog.ref)
   function onKeydown(event: KeyboardEvent) {
     handleKeydownTab(event)

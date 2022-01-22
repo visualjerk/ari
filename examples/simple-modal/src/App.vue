@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
 
 export default {
@@ -10,9 +10,11 @@ export default {
   },
   setup() {
     const modal = useModalState()
-    modal.show()
+    const modal2 = useModalState()
+    modal2.show()
     return {
       modal,
+      modal2,
     }
   },
 }
@@ -22,7 +24,7 @@ export default {
   <ModalDisclosure v-bind="modal" class="button">Open Modal</ModalDisclosure>
   <ModalBackdrop v-bind="modal" class="modal-backdrop">
     <Modal v-bind="modal" class="modal">
-      <form>
+      <form class="stack">
         <h2>Create New Ticket</h2>
         <div class="form-item">
           <label for="name">Name</label>
@@ -41,6 +43,19 @@ export default {
           </button>
         </div>
       </form>
+    </Modal>
+  </ModalBackdrop>
+  <ModalBackdrop v-bind="modal2" class="modal-backdrop">
+    <Modal v-bind="modal2" class="modal">
+      <div class="stack">
+        <h2>We are using cookies</h2>
+        <div class="form-actions">
+          <button class="button button--primary" @click="modal2.hide">
+            That's fine for me
+          </button>
+          <button class="button" @click="modal2.hide">Not cool</button>
+        </div>
+      </div>
     </Modal>
   </ModalBackdrop>
 </template>
@@ -133,7 +148,7 @@ body {
   box-shadow: var(--color-backdrop) 0 1rem 2rem;
 }
 
-form {
+.stack {
   display: grid;
   gap: var(--space-3);
 }
