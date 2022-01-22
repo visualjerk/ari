@@ -5,6 +5,7 @@
   "repository": "https://github.com/visualjerk/ari",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
   "author": {
     "name": "Jörg Bayreuther",
     "url": "https://github.com/visualjerk"
@@ -13,6 +14,7 @@
     "lint": "eslint . --ext js,ts,tsx,vue --fix",
     "test": "jest",
     "build": "rollup -c",
+    "build:publish": "BUILD_WITH_TYPES=true rollup -c",
     "docs:deploy": "cd docs && yarn deploy"
   },
   "dependencies": {

@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import del from 'rollup-plugin-delete'
 import dts from 'rollup-plugin-dts'
 
-export default [
+const config = [
   {
     input: 'src/**/index.ts',
     output: [
@@ -31,9 +31,14 @@ export default [
     ],
     external: ['vue'],
   },
-  {
+]
+
+if (process.env.BUILD_WITH_TYPES) {
+  config.push({
     input: './lib/dts/**/*.d.ts',
     output: [{ file: 'lib/index.d.ts', format: 'es' }],
     plugins: [multi(), dts(), del({ targets: 'lib/dts', hook: 'buildEnd' })],
-  },
-]
+  })
+}
+
+export default config
