@@ -13,6 +13,7 @@ import {
   focusIsWithin,
   defineComponent,
   focusFirstFocusable,
+  forceFocus,
 } from '../utils'
 import {
   useDisclosureContent,
@@ -92,10 +93,19 @@ function useHideOnFocusOutside(props: DialogProps, ref: Ref<HTMLElement>) {
 }
 
 function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
+  let lastFocusedElement: HTMLElement = null
+
+  onMounted(() => {
+    if (props.visible.value) {
+      lastFocusedElement = document.activeElement as HTMLElement
+    }
+  })
+
   watch(
     () => props.visible.value,
     (visible) => {
       if (visible) {
+        lastFocusedElement = document.activeElement as HTMLElement
         focusFirstFocusable(getElementFromRef(ref))
       }
     },
@@ -109,10 +119,7 @@ function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
     () => props.visible.value,
     (visible) => {
       if (!visible && focusIsWithin(getElementFromRef(ref))) {
-        const disclosure: HTMLElement = document.querySelector(
-          `[aria-controls="${props.baseId}"]`
-        )
-        disclosure.focus()
+        forceFocus(lastFocusedElement)
       }
     },
     {

@@ -61,3 +61,14 @@ export function focusFirstFocusable(element: HTMLElement) {
   const elementToFocus = getTabbableElements(element)[0] || element
   elementToFocus.focus()
 }
+
+export function forceFocus(element: HTMLElement) {
+  const tabIndex = element.getAttribute('tabindex')
+  if (tabIndex == null) {
+    element.setAttribute('tabindex', '-1')
+  }
+  element.focus()
+  if (tabIndex == null) {
+    element.removeAttribute('tabindex')
+  }
+}
