@@ -1,7 +1,8 @@
 <script lang="ts">
+import { defineComponent } from 'vue'
 import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     Modal,
@@ -17,7 +18,7 @@ export default {
       modal2,
     }
   },
-}
+})
 </script>
 
 <template>

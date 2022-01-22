@@ -1,0 +1,9 @@
+{
+  "exclude": ["**/*.spec.tsx", "lib", "examples", "test"],
+  "compilerOptions": {
+    "outDir": "lib",
+    "declaration": true,
+    "declarationDir": "./dts",
+    "noEmitOnError": false
+  }
+}
