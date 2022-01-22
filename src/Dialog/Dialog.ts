@@ -1,4 +1,10 @@
-import { ComponentObjectPropsOptions, Ref, watch, onBeforeUnmount } from 'vue'
+import {
+  ComponentObjectPropsOptions,
+  Ref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+} from 'vue'
 import {
   getElementFromRef,
   getTabbableElements,
@@ -89,12 +95,21 @@ function focusFirstFocusable(element: HTMLElement) {
 }
 
 function useHandleToggleFocus(props: DialogProps, ref: Ref<HTMLElement>) {
+  onMounted(() => {
+    if (props.visible.value) {
+      focusFirstFocusable(getElementFromRef(ref))
+    }
+  })
+
   watch(
     () => props.visible.value,
     (visible) => {
       if (visible) {
         focusFirstFocusable(getElementFromRef(ref))
       }
+    },
+    {
+      flush: 'post',
     }
   )
   // Needs to be a 'sync' watcher, so we can check
