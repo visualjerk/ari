@@ -1,9 +1,9 @@
 <template>
   <div
+    class="relative"
     @keydown.down="increment"
     @keydown.up="decrement"
     @keydown.enter="go"
-    class="relative"
   >
     <label class="relative block">
       <span class="sr-only">Search Documentation</span>
@@ -34,15 +34,15 @@
         </li>
 
         <li
-          v-else
           v-for="(result, index) in results"
+          v-else
           :key="result.path + result.anchor"
-          @mouseenter="focusIndex = index"
-          @mousedown="go"
           class="border-ui-sidebar"
           :class="{
             'border-b': index + 1 !== results.length
           }"
+          @mouseenter="focusIndex = index"
+          @mousedown="go"
         >
           <g-link
             :to="result.path + result.anchor"

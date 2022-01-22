@@ -65,18 +65,6 @@ export default {
       sidebarOpen: false,
     }
   },
-  watch: {
-    sidebarOpen: function (isOpen) {
-      document.body.classList.toggle('overflow-hidden', isOpen)
-    },
-  },
-  methods: {
-    setHeaderHeight() {
-      this.$nextTick(() => {
-        this.headerHeight = this.$refs.header.offsetHeight
-      })
-    },
-  },
   computed: {
     sidebarStyle() {
       return {
@@ -88,8 +76,20 @@ export default {
       return this.$page && this.headerHeight > 0
     },
   },
+  watch: {
+    sidebarOpen: function (isOpen) {
+      document.body.classList.toggle('overflow-hidden', isOpen)
+    },
+  },
   mounted() {
     this.setHeaderHeight()
+  },
+  methods: {
+    setHeaderHeight() {
+      this.$nextTick(() => {
+        this.headerHeight = this.$refs.header.offsetHeight
+      })
+    },
   },
   metaInfo() {
     return {

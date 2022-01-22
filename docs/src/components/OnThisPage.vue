@@ -69,6 +69,15 @@ export default {
     }
   },
 
+  mounted() {
+    if (process.isClient) {
+      if (window.location.hash) {
+        this.activeAnchor = window.location.hash;
+      }
+      this.$nextTick(this.initObserver);
+    }
+  },
+
   methods: {
     observerCallback(entries, observer) {
       // This early return fixes the jumping
@@ -106,15 +115,6 @@ export default {
         this.observer.observe(elements[i]);
       }
     },
-  },
-
-  mounted() {
-    if (process.isClient) {
-      if (window.location.hash) {
-        this.activeAnchor = window.location.hash;
-      }
-      this.$nextTick(this.initObserver);
-    }
   }
 };
 </script>
