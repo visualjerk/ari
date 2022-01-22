@@ -56,3 +56,8 @@ export function elementIsWithin(container: HTMLElement, element: HTMLElement) {
   }
   return container.contains(element as HTMLElement)
 }
+
+export function focusFirstFocusable(element: HTMLElement) {
+  const elementToFocus = getTabbableElements(element)[0] || element
+  elementToFocus.focus()
+}

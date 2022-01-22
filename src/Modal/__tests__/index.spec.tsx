@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { ModalDisclosure, Modal, ModalBackdrop, useModalState } from '..'
 import { render, getByText, click, tab } from '../../../test/utils'
 
@@ -8,10 +9,14 @@ function createTestSetup({
   <Modal v-bind="modal">bar</Modal>
 </div>
   `,
+  visible = false,
 } = {}) {
-  const { nextTick } = render({
+  render({
     setup() {
       const modal = useModalState()
+      if (visible) {
+        modal.show()
+      }
       return {
         modal,
       }
@@ -25,7 +30,6 @@ function createTestSetup({
   })
 
   return {
-    nextTick,
     content: getByText('bar'),
     disclosure: getByText('foo'),
   }
@@ -38,7 +42,7 @@ describe('Modal Composition', () => {
   })
 
   it('disclosure opens content', async () => {
-    const { content, disclosure, nextTick } = createTestSetup()
+    const { content, disclosure } = createTestSetup()
     expect(content).not.toBeVisible()
     click(disclosure)
     await nextTick()
@@ -59,7 +63,7 @@ describe('Modal Composition', () => {
   })
 
   it('disclosure opens backdrop', async () => {
-    const { disclosure, nextTick } = createTestSetup({
+    const { disclosure } = createTestSetup({
       template: `
     <div>
       <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
@@ -76,7 +80,7 @@ describe('Modal Composition', () => {
   })
 
   it('modal renders inside backdrop instead of portal', async () => {
-    const { disclosure, content, nextTick } = createTestSetup({
+    const { disclosure, content } = createTestSetup({
       template: `
     <div>
       <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
@@ -94,7 +98,7 @@ describe('Modal Composition', () => {
   })
 
   it('focus is trapped inside modal', async () => {
-    const { disclosure, content, nextTick } = createTestSetup({
+    const { disclosure, content } = createTestSetup({
       template: `
     <div>
       <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
@@ -111,7 +115,7 @@ describe('Modal Composition', () => {
   })
 
   it('tab focuses elements inside modal', async () => {
-    const { disclosure, nextTick } = createTestSetup({
+    const { disclosure } = createTestSetup({
       template: `
     <div>
       <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
@@ -131,7 +135,7 @@ describe('Modal Composition', () => {
   })
 
   it('tab on last tabbable element focuses first element', async () => {
-    const { disclosure, nextTick } = createTestSetup({
+    const { disclosure } = createTestSetup({
       template: `
     <div>
       <ModalDisclosure v-bind="modal">foo</ModalDisclosure>
@@ -154,7 +158,7 @@ describe('Modal Composition', () => {
   })
 
   it('shift tab on first tabbable element focuses last tabbable element', async () => {
-    const { disclosure, nextTick } = createTestSetup({
+    const { disclosure } = createTestSetup({
       template: `
     <div>
       <button>before</button>
@@ -175,7 +179,7 @@ describe('Modal Composition', () => {
   })
 
   it('shift tab on last tabbable element focuses previous tabbable element', async () => {
-    const { disclosure, nextTick } = createTestSetup({
+    const { disclosure } = createTestSetup({
       template: `
     <div>
       <button>before</button>
@@ -198,5 +202,12 @@ describe('Modal Composition', () => {
     tab({ shift: true })
     await nextTick()
     expect(getByText('two')).toHaveFocus()
+  })
+
+  it('is focused initially when visible', async () => {
+    const { content } = createTestSetup({
+      visible: true,
+    })
+    expect(content).toHaveFocus()
   })
 })
