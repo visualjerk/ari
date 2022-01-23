@@ -1,6 +1,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Modal, ModalBackdrop, ModalDisclosure, useModalState } from 'vue-ari'
+import {
+  Modal,
+  ModalBackdrop,
+  ModalDisclosure,
+  useModalState,
+  Disclosure,
+  DisclosureContent,
+  useDisclosureState,
+} from 'vue-ari'
 
 export default defineComponent({
   name: 'App',
@@ -8,12 +16,16 @@ export default defineComponent({
     Modal,
     ModalBackdrop,
     ModalDisclosure,
+    Disclosure,
+    DisclosureContent,
   },
   setup() {
+    const disclosure = useDisclosureState()
     const modal = useModalState()
     const modal2 = useModalState()
     modal2.show()
     return {
+      disclosure,
       modal,
       modal2,
     }
@@ -22,31 +34,41 @@ export default defineComponent({
 </script>
 
 <template>
+  <div>
+    <Disclosure v-bind="disclosure">Toggle</Disclosure>
+    <transition name="fade">
+      <DisclosureContent v-bind="disclosure">Content</DisclosureContent>
+    </transition>
+  </div>
   <ModalDisclosure v-bind="modal" class="button">Open Modal</ModalDisclosure>
-  <ModalBackdrop v-bind="modal" class="modal-backdrop">
-    <Modal v-bind="modal" class="modal">
-      <form class="stack">
-        <h2>Create New Ticket</h2>
-        <div class="form-item">
-          <label for="name">Name</label>
-          <input id="name" name="name" />
-        </div>
-        <div class="form-item">
-          <label for="description">Description</label>
-          <textarea id="description" name="description" rows="5"></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="button button--primary" type="submit">
-            Create Ticket
-          </button>
-          <button class="button" type="button" @click="modal.hide">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </Modal>
-  </ModalBackdrop>
-  <ModalBackdrop v-bind="modal2" class="modal-backdrop">
+  <transition name="fade">
+    <ModalBackdrop v-bind="modal" class="modal-backdrop">
+      <transition name="fade">
+        <Modal v-bind="modal" class="modal">
+          <form class="stack">
+            <h2>Create New Ticket</h2>
+            <div class="form-item">
+              <label for="name">Name</label>
+              <input id="name" name="name" />
+            </div>
+            <div class="form-item">
+              <label for="description">Description</label>
+              <textarea id="description" name="description" rows="5"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="button button--primary" type="submit">
+                Create Ticket
+              </button>
+              <button class="button" type="button" @click="modal.hide">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </Modal>
+      </transition>
+    </ModalBackdrop>
+  </transition>
+  <!-- <ModalBackdrop v-bind="modal2" class="modal-backdrop">
     <Modal v-bind="modal2" class="modal">
       <div class="stack">
         <h2>We are using cookies</h2>
@@ -58,7 +80,7 @@ export default defineComponent({
         </div>
       </div>
     </Modal>
-  </ModalBackdrop>
+  </ModalBackdrop> -->
 </template>
 
 <style>
@@ -210,5 +232,15 @@ textarea {
 
 textarea {
   resize: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

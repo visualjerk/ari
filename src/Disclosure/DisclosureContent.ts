@@ -1,5 +1,5 @@
-import { ComponentObjectPropsOptions, computed } from 'vue'
-import { defineComponent } from '../utils'
+import { ComponentObjectPropsOptions } from 'vue'
+import { defineComponent, useVisibilityTransition } from '../utils'
 import { useBox, boxProps, BoxProps } from '../Box'
 import { disclosureStateReturn, DisclosureStateReturn } from './DisclosureState'
 
@@ -7,19 +7,21 @@ export interface DisclosureContentProps
   extends BoxProps,
     DisclosureStateReturn {}
 
-export const disclosureContentProps: ComponentObjectPropsOptions<DisclosureContentProps> = {
-  ...boxProps,
-  ...disclosureStateReturn,
-}
+export const disclosureContentProps: ComponentObjectPropsOptions<DisclosureContentProps> =
+  {
+    ...boxProps,
+    ...disclosureStateReturn,
+  }
 
 export function useDisclosureContent(props: DisclosureContentProps) {
-  const Box = useBox()
+  const box = useBox()
+
+  useVisibilityTransition(props.visible, box.ref)
 
   return {
-    ...Box,
+    ...box,
     id: props.baseId,
-    style: computed(() => (props.visible.value ? null : 'display: none;')),
-    hidden: computed(() => (props.visible.value ? null : true)),
+    visible: props.visible,
   }
 }
 
