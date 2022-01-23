@@ -13,8 +13,9 @@
   "scripts": {
     "lint": "eslint . --ext js,ts,tsx,vue --fix",
     "test": "jest",
+    "dev": "yarn build --watch",
     "build": "rollup -c",
-    "build:publish": "BUILD_WITH_TYPES=true rollup -c",
+    "build:publish": "BUILD_WITH_TYPES=true yarn build",
     "docs:deploy": "cd docs && yarn deploy"
   },
   "dependencies": {
