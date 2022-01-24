@@ -1,7 +1,6 @@
 import {
   unref,
   watch,
-  onUpdated,
   onMounted,
   getCurrentInstance,
   Ref,
@@ -17,7 +16,7 @@ export function useVisibilityTransition(
     return
   }
 
-  let vnode
+  const currentInstance = getCurrentInstance()
   let initialDisplayValue
 
   function setDisplay(el: RendererNode, value: unknown): void {
@@ -26,7 +25,7 @@ export function useVisibilityTransition(
   }
 
   watch(visibleRef, (visible) => {
-    const { transition } = vnode
+    const { transition } = currentInstance.vnode
     const el = getElementFromRef(elementRef)
     if (!transition) {
       setDisplay(el, visible)
@@ -47,9 +46,7 @@ export function useVisibilityTransition(
 
   onMounted(() => {
     const visible = unref(visibleRef)
-    const current = getCurrentInstance()
-    vnode = current.vnode
-    const { transition } = vnode
+    const { transition } = currentInstance.vnode
     const el = getElementFromRef(elementRef)
     initialDisplayValue = el.style.display === 'none' ? '' : el.style.display
     if (transition && visible) {
@@ -58,10 +55,5 @@ export function useVisibilityTransition(
       return
     }
     setDisplay(el, visible)
-  })
-
-  onUpdated(() => {
-    const current = getCurrentInstance()
-    vnode = current.vnode
   })
 }
