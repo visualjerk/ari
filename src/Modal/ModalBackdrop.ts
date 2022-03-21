@@ -19,7 +19,6 @@ export function useModalBackdrop(props: ModalBackdropProps) {
   return {
     ...box,
     withPortal: true,
-    visible: props.visible,
   }
 }
 

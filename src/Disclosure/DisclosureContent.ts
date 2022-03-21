@@ -21,7 +21,6 @@ export function useDisclosureContent(props: DisclosureContentProps) {
   return {
     ...box,
     id: props.baseId,
-    visible: props.visible,
   }
 }
 
