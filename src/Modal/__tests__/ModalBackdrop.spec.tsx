@@ -12,6 +12,7 @@ describe('ModalBackdrop', () => {
     await nextTick()
     expect(getByText('foo')).toMatchInlineSnapshot(`
       <div
+        hidden=""
         style="display: none;"
       >
         foo
