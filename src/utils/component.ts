@@ -27,7 +27,7 @@ export function defineComponent(componentProps, useAttributeRefs) {
         const { withPortal, ...attributes } = refsToAttributes(attributeRefs)
         const renderedComp = h(props.as, { ...attributes, ...attrs }, slots)
         if (withPortal) {
-          return h(Portal, null, renderedComp)
+          return h(Portal, null, () => renderedComp)
         }
         return renderedComp
       }
