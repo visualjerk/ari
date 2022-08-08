@@ -5,7 +5,7 @@
 
 Accessible unstyled Vue components inspired by Reakit.
 
-Try it on [Codesandbox](https://codesandbox.io/s/ari-tailwind-playground-x3e47?file=/src/App.vue).
+Try it on [Stackblitz](https://stackblitz.com/edit/vue-grjxen?file=src/App.vue).
 
 ## Installation
 
